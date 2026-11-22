@@ -1,0 +1,1089 @@
+<title>Mechatronics Unit III–IV Notes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: one ruled notebook sheet, red margin line, blue-ballpoint body, graphite pencil diagrams, yellow highlighter */
+:root{
+  --paper:#fdfdf9;
+  --rule:#d5e3f2;
+  --margin:#eaa3a3;
+  --ink:#1d3d94;      /* blue ballpoint */
+  --pen:#c23a2b;      /* red pen headings */
+  --graphite:#2b2b33; /* pencil for diagrams */
+  --hl:rgba(255,226,60,.55);
+  --hl2:rgba(120,220,150,.45);
+  --box:rgba(29,61,148,.05);
+  --note:#fff4b8;
+  --note-ink:#3b3320;
+  --hand:"Kalam","Comic Sans MS","Segoe Print",cursive;
+  --title:"Caveat","Kalam","Segoe Print",cursive;
+  --sketch:"Patrick Hand","Kalam","Comic Sans MS",cursive;
+  --line:32px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#1b2130;--rule:#28324a;--margin:#6e3a44;--ink:#b9c9ff;--pen:#ff8f7d;--graphite:#e4e6ee;
+  --hl:rgba(255,214,0,.28);--hl2:rgba(90,220,140,.25);--box:rgba(185,201,255,.07);--note:#3a3522;--note-ink:#f3e9c4;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#1b2130;--rule:#28324a;--margin:#6e3a44;--ink:#b9c9ff;--pen:#ff8f7d;--graphite:#e4e6ee;
+  --hl:rgba(255,214,0,.28);--hl2:rgba(90,220,140,.25);--box:rgba(185,201,255,.07);--note:#3a3522;--note-ink:#f3e9c4;color-scheme:dark}
+
+html{background:var(--paper)}
+body{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(90deg,transparent calc(var(--gut) - 3px),var(--margin) calc(var(--gut) - 3px),var(--margin) calc(var(--gut) - 1px),transparent calc(var(--gut) - 1px)),
+    repeating-linear-gradient(180deg,transparent 0 calc(var(--line) - 1px),var(--rule) calc(var(--line) - 1px) var(--line));
+  --gut:max(64px,calc(50vw - 440px));
+  color:var(--ink);font-family:var(--hand);font-size:17px;line-height:var(--line);
+  padding-block:24px 64px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet{max-width:860px;margin:0 auto;padding-left:max(0px,calc(var(--gut) - (50vw - 430px) + 14px))}
+@media (max-width:900px){.sheet{padding-left:calc(var(--gut) - 2px)}}
+@media (max-width:560px){body{--gut:34px;font-size:16px}.sheet{padding-left:22px}}
+
+h1,h2,h3,h4{font-family:var(--title);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:3.1rem;color:var(--pen);transform:rotate(-1.2deg);margin-top:8px}
+.sub{font-size:1.05rem;margin:4px 0 0}
+h2{font-size:2.6rem;color:var(--pen);margin:56px 0 4px;display:inline-block;border-bottom:3px double var(--pen);padding-bottom:2px}
+h3{font-size:2rem;color:var(--graphite);margin:40px 0 6px}
+h3 .n{color:var(--pen);margin-right:6px}
+h4{font-size:1.55rem;color:var(--pen);margin:22px 0 2px}
+p{margin:6px 0;max-width:72ch}
+ul,ol{margin:4px 0 8px;padding-left:1.4em;max-width:74ch}
+li{margin:2px 0}
+li::marker{color:var(--pen)}
+b,strong{font-weight:700}
+.hl{background:linear-gradient(100deg,transparent 2%,var(--hl) 4%,var(--hl) 96%,transparent 98%);padding:0 3px;border-radius:3px}
+.hg{background:linear-gradient(100deg,transparent 2%,var(--hl2) 4%,var(--hl2) 96%,transparent 98%);padding:0 3px;border-radius:3px}
+.u{text-decoration:underline wavy var(--pen) 1.5px;text-underline-offset:5px}
+.red{color:var(--pen)}
+.def{border:2px solid var(--ink);border-radius:14px 6px 16px 8px;padding:6px 14px;margin:10px 0;max-width:74ch;background:var(--box)}
+.def::before{content:"Definition ➜ ";font-weight:700;color:var(--pen)}
+.tip{background:var(--note);color:var(--note-ink);padding:8px 16px;margin:16px 0 16px 6px;max-width:62ch;transform:rotate(-.8deg);box-shadow:2px 3px 0 rgba(0,0,0,.12);border-radius:2px}
+.tip::before{content:"★ Exam tip: ";font-weight:700;color:var(--pen)}
+.formula{font-family:var(--sketch);font-size:1.2rem;border:2px dashed var(--pen);display:inline-block;padding:2px 14px;margin:6px 0;border-radius:10px;color:var(--graphite)}
+.fig{margin:14px 0 6px;overflow-x:auto;max-width:100%}
+.fig svg{display:block;width:100%;min-width:520px;height:auto}
+.cap{font-family:var(--sketch);font-size:.95rem;color:var(--pen);margin:0 0 10px;text-align:center}
+.tbl{overflow-x:auto;margin:10px 0;max-width:100%}
+table{border-collapse:collapse;font-family:var(--hand);font-size:.95rem;line-height:1.35;min-width:480px}
+th,td{border:1.5px solid var(--graphite);padding:5px 10px;text-align:left;vertical-align:top}
+th{color:var(--pen);font-family:var(--title);font-size:1.3rem}
+.toc{columns:2 260px;column-gap:28px;margin:10px 0}
+.toc a{color:var(--ink)}
+a{color:var(--pen)}
+a:focus-visible{outline:2px dashed var(--pen);outline-offset:2px}
+.q{margin:8px 0;max-width:74ch}
+.q b{color:var(--pen)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 28px}
+.two>*{min-width:0}
+
+/* sketched diagram strokes */
+.fig text{font-family:var(--sketch);fill:var(--graphite);font-size:15px;paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+.fig text.c{text-anchor:middle}
+.fig text.s{font-size:12.5px}
+.fig text.r{fill:var(--pen)}
+.fig text.i{fill:var(--ink)}
+.fig .b{fill:none;stroke:var(--graphite);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fig .bf{fill:var(--box);stroke:var(--graphite);stroke-width:2;stroke-linejoin:round}
+.fig .a{fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round}
+.fig .rr{fill:none;stroke:var(--pen);stroke-width:2;stroke-linecap:round}
+.fig .d{stroke-dasharray:6 5}
+.fig .hlf{fill:var(--hl);stroke:none}
+.fig .dot{fill:var(--graphite)}
+.fig use{color:var(--graphite)}
+.mh{fill:var(--ink)}
+.mhr{fill:var(--pen)}
+.sk{filter:url(#rough)}
+@media print{body{font-size:14px}.fig svg{min-width:0}h2{break-before:page}}
+</style>
+
+<!-- shared defs: hand-drawn wobble filter, arrowheads, ladder symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="rough" filterUnits="userSpaceOnUse" x="-50" y="-50" width="1000" height="800">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.6"/>
+    </filter>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mh" d="M0,0 L10,5 L0,10 L3,5 z"/></marker>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mhr" d="M0,0 L10,5 L0,10 L3,5 z"/></marker>
+    <symbol id="no" viewBox="0 0 40 30" width="40" height="30" overflow="visible"><path d="M0 15H13M13 3V27M27 3V27M27 15H40" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="nc" viewBox="0 0 40 30" width="40" height="30" overflow="visible"><path d="M0 15H13M13 3V27M27 3V27M27 15H40M9 28L31 2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="coil" viewBox="0 0 40 30" width="40" height="30" overflow="visible"><path d="M0 15H9M31 15H40M14 3Q5 15 14 27M26 3Q35 15 26 27" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  </defs>
+</svg>
+
+<main class="sheet">
+<h1>Mechatronics ✎ Unit III &amp; Unit IV</h1>
+<p class="sub">GGSIPU · Minor exam notes · Microprocessors, PLCs, AI in mechatronics &amp; design case studies</p>
+
+<h4>Contents</h4>
+<div class="toc">
+  <div><b class="red">Unit III</b></div>
+  <div><a href="#mp">3.1 Microprocessor systems</a></div>
+  <div><a href="#mc">3.2 Microcontrollers &amp; applications</a></div>
+  <div><a href="#plc">3.3 PLC structure &amp; I/O processing</a></div>
+  <div><a href="#ladder">3.4 Ladder programming</a></div>
+  <div><a href="#latch">3.5 Latching &amp; internal relays</a></div>
+  <div><a href="#seq">3.6 Sequencing</a></div>
+  <div><a href="#timer">3.7 Timers &amp; counters</a></div>
+  <div><a href="#shift">3.8 Shift registers</a></div>
+  <div><a href="#mcr">3.9 Master &amp; jump controls</a></div>
+  <div><a href="#code">3.10 Code conversion &amp; data handling</a></div>
+  <div><a href="#select">3.11 Selection of PLC</a></div>
+  <div><b class="red">Unit IV</b></div>
+  <div><a href="#ai">4.1 AI inclusion in mechatronics</a></div>
+  <div><a href="#sc">4.2 Signal conditioning &amp; DAQ</a></div>
+  <div><a href="#act">4.3 Mechatronic actuation</a></div>
+  <div><a href="#fw">4.4 Embedded firmware architecture</a></div>
+  <div><a href="#rtos">4.5 RTOS for safety-critical systems</a></div>
+  <div><a href="#cad">4.6 Physics-accurate CAD models</a></div>
+  <div><a href="#design">4.7 Designing mechatronic systems</a></div>
+  <div><a href="#cases">4.8 Case studies</a></div>
+  <div><a href="#qs">Important questions</a></div>
+</div>
+
+<!-- ===================================================== UNIT III -->
+<h2>UNIT – III</h2>
+
+<h3 id="mp"><span class="n">3.1</span>Microprocessor Systems</h3>
+<div class="def">A <b>microprocessor</b> is a programmable, clock-driven digital IC that contains the <b>CPU</b> (ALU + control unit + registers) on a single chip. It needs <u>external</u> memory and I/O chips to make a working <b>microprocessor system</b>.</div>
+<ul>
+  <li><b>ALU</b> – does arithmetic (add, subtract) and logic (AND, OR, compare) operations.</li>
+  <li><b>Control Unit</b> – fetches &amp; decodes instructions, generates timing/control signals.</li>
+  <li><b>Registers</b> – fast storage: Accumulator (A), general purpose (B,C,D,E,H,L), <span class="hl">Program Counter (PC)</span> holds address of next instruction, Stack Pointer (SP), Flag/status register (Z, C, S, P, AC).</li>
+  <li><b>Buses</b> – group of parallel wires:
+    <ul>
+      <li><b>Address bus</b> – unidirectional (CPU → memory). 16 lines ⇒ 2¹⁶ = <span class="hl">64 KB</span> addressable.</li>
+      <li><b>Data bus</b> – bidirectional, width = word size (8-bit in 8085).</li>
+      <li><b>Control bus</b> – RD, WR, IO/M, ALE, reset, interrupt lines.</li>
+    </ul></li>
+  <li><b>Memory</b> – ROM/EPROM (program, non-volatile), RAM (data, volatile).</li>
+  <li><b>I/O ports</b> – interface to keyboard, sensors, displays, actuators (via PPI 8255 etc.).</li>
+</ul>
+<div class="fig"><svg viewBox="0 0 640 340" role="img" aria-label="Block diagram of a microprocessor system with CPU, clock, buses, memory and I/O">
+  <g class="sk">
+    <rect class="bf" x="240" y="18" width="170" height="96" rx="6"/>
+    <path class="b" d="M240 50H410M297 50V114M354 50V114"/>
+    <rect class="b" x="40" y="40" width="100" height="44" rx="6"/>
+    <path class="a" d="M140 62H238" marker-end="url(#ar)"/>
+    <path class="b" d="M40 172H610" stroke-width="3.5"/>
+    <path class="b" d="M40 208H610" stroke-width="3.5"/>
+    <path class="b" d="M40 244H610" stroke-width="3.5"/>
+    <path class="a" d="M268 114V170" marker-end="url(#ar)"/>
+    <path class="a" d="M325 116V206" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="a" d="M382 114V242" marker-end="url(#ar)"/>
+    <rect class="bf" x="50" y="274" width="110" height="50" rx="5"/>
+    <rect class="bf" x="190" y="274" width="110" height="50" rx="5"/>
+    <rect class="bf" x="330" y="274" width="120" height="50" rx="5"/>
+    <rect class="bf" x="480" y="274" width="120" height="50" rx="5"/>
+    <path class="a" d="M80 174V272M105 210V272M130 246V272" marker-end="url(#ar)"/>
+    <path class="a" d="M220 174V272M270 246V272" marker-end="url(#ar)"/>
+    <path class="a" d="M245 210V272" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="a" d="M360 174V272M420 246V272" marker-end="url(#ar)"/>
+    <path class="a" d="M390 210V272" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="a" d="M510 174V272M570 246V272" marker-end="url(#ar)"/>
+    <path class="a" d="M540 210V272" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  </g>
+  <text class="c r" x="325" y="40">CPU (Microprocessor)</text>
+  <text class="c" x="268" y="86">ALU</text>
+  <text class="c" x="325" y="80">Control</text><text class="c" x="325" y="97">Unit</text>
+  <text class="c" x="382" y="86">Registers</text>
+  <text class="c" x="90" y="67">Clock (Xtal)</text>
+  <text x="44" y="166" class="s i">Address bus (16-bit, one-way)</text>
+  <text x="44" y="202" class="s i">Data bus (8-bit, two-way)</text>
+  <text x="44" y="238" class="s i">Control bus (RD, WR, ALE…)</text>
+  <text class="c" x="105" y="304">ROM / EPROM</text>
+  <text class="c" x="245" y="304">RAM</text>
+  <text class="c" x="390" y="296">Input port</text><text class="c s" x="390" y="314">(keys, sensors)</text>
+  <text class="c" x="540" y="296">Output port</text><text class="c s" x="540" y="314">(LED, motor drv)</text>
+</svg></div>
+<p class="cap">Fig 1 – Microprocessor system (CPU + memory + I/O on three buses)</p>
+
+<h4>Instruction cycle</h4>
+<p><span class="hl">Fetch</span> (PC → address bus, opcode read from memory) → <span class="hl">Decode</span> (CU interprets opcode) → <span class="hl">Execute</span> (ALU/register/memory action) → PC incremented → repeat. Time for one instruction = several <b>machine cycles</b>, each = several <b>T-states</b> (clock periods).</p>
+<p><b>Example – 8085:</b> 8-bit data, 16-bit address, 40-pin, 5 interrupts (TRAP, RST 7.5, 6.5, 5.5, INTR), multiplexed AD0–AD7, ~3 MHz clock.</p>
+
+<h3 id="mc"><span class="n">3.2</span>Microcontrollers &amp; Applications</h3>
+<div class="def">A <b>microcontroller (MCU)</b> is a complete computer on a single chip — CPU + ROM/Flash + RAM + I/O ports + timers + ADC + serial interface — designed for <b>embedded control</b> of a dedicated task.</div>
+<div class="fig"><svg viewBox="0 0 640 290" role="img" aria-label="Microcontroller internal block diagram">
+  <g class="sk">
+    <rect class="b d" x="20" y="16" width="600" height="250" rx="14"/>
+    <rect class="bf" x="50" y="44" width="115" height="44" rx="5"/>
+    <rect class="bf" x="185" y="44" width="115" height="44" rx="5"/>
+    <rect class="bf" x="320" y="44" width="115" height="44" rx="5"/>
+    <rect class="bf" x="455" y="44" width="135" height="44" rx="5"/>
+    <path class="b" d="M50 110H590" stroke-width="3.5"/>
+    <path class="a" d="M107 88V108M242 88V108M377 88V108M522 88V108" marker-start="url(#ar)"/>
+    <rect class="bf" x="250" y="128" width="140" height="48" rx="6"/>
+    <path class="a" d="M320 112V126" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="a" d="M320 176V194" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="b" d="M50 196H590" stroke-width="3.5"/>
+    <rect class="bf" x="40" y="212" width="100" height="40" rx="5"/>
+    <rect class="bf" x="155" y="212" width="100" height="40" rx="5"/>
+    <rect class="bf" x="270" y="212" width="100" height="40" rx="5"/>
+    <rect class="bf" x="385" y="212" width="100" height="40" rx="5"/>
+    <rect class="bf" x="500" y="212" width="100" height="40" rx="5"/>
+    <path class="a" d="M90 198V210M205 198V210M320 198V210M435 198V210M550 198V210" marker-end="url(#ar)" marker-start="url(#ar)"/>
+  </g>
+  <text class="r s" x="30" y="34">single silicon chip</text>
+  <text class="c" x="107" y="71">Flash / ROM</text>
+  <text class="c" x="242" y="71">RAM</text>
+  <text class="c" x="377" y="71">EEPROM</text>
+  <text class="c" x="522" y="71">Oscillator/Clock</text>
+  <text class="c r" x="320" y="157">CPU core</text>
+  <text class="s i" x="470" y="124">internal bus</text>
+  <text class="c" x="90" y="237">I/O ports</text>
+  <text class="c" x="205" y="237">Timers/Ctr</text>
+  <text class="c" x="320" y="237">ADC / PWM</text>
+  <text class="c" x="435" y="237">UART/SPI/I²C</text>
+  <text class="c" x="550" y="237">Interrupts</text>
+</svg></div>
+<p class="cap">Fig 2 – Inside a microcontroller (everything on one chip)</p>
+<p><b>Popular MCUs:</b> <span class="hl">Intel 8051</span> (8-bit, 4 KB ROM, 128 B RAM, 4 × 8-bit ports P0–P3, 2 timers, 1 UART, 5 interrupts) · Microchip PIC16F877A · Atmel AVR ATmega328 (Arduino UNO) · ARM Cortex-M (STM32).</p>
+
+<h4>Microprocessor vs Microcontroller</h4>
+<div class="tbl"><table>
+  <tr><th>Point</th><th>Microprocessor</th><th>Microcontroller</th></tr>
+  <tr><td>Contents</td><td>Only CPU on chip</td><td>CPU + memory + I/O + timers + ADC</td></tr>
+  <tr><td>External chips</td><td>Needs RAM, ROM, I/O externally</td><td>Very few needed</td></tr>
+  <tr><td>Architecture</td><td>Mostly Von Neumann (shared bus)</td><td>Mostly Harvard (separate program &amp; data memory)</td></tr>
+  <tr><td>Cost / size / power</td><td>High</td><td>Low</td></tr>
+  <tr><td>Speed</td><td>Very high (GHz)</td><td>Moderate (MHz)</td></tr>
+  <tr><td>Use</td><td>General purpose — PCs, laptops</td><td>Dedicated embedded control</td></tr>
+  <tr><td>Example</td><td>8085, 8086, Intel Core i7</td><td>8051, PIC, AVR, STM32</td></tr>
+</table></div>
+
+<h4>Applications</h4>
+<div class="two">
+<ul>
+  <li><b>Washing machine</b> – MCU reads water-level, temperature, door switch; drives valves, heater, drum motor through wash → rinse → spin program.</li>
+  <li><b>Automobile</b> – ABS, airbag, engine ECU, cruise control.</li>
+  <li><b>Domestic</b> – microwave oven, AC, camera auto-focus, smart meter.</li>
+</ul>
+<ul>
+  <li><b>Industrial</b> – temperature/PID controllers, CNC, robots, conveyor control.</li>
+  <li><b>Medical</b> – infusion pumps, pacemakers, BP monitors.</li>
+  <li><b>Office</b> – printers, photocopier, ATM, barcode readers.</li>
+</ul>
+</div>
+<div class="tip">Always draw the block diagram + a 7-row comparison table. "Applications" questions want 1 example explained in steps (e.g., washing machine: inputs → MCU program → outputs).</div>
+
+<h3 id="plc"><span class="n">3.3</span>Programmable Logic Controller (PLC)</h3>
+<div class="def">A <b>PLC</b> is a rugged digital electronic device with programmable memory that stores instructions to implement logic, sequencing, timing, counting and arithmetic functions to control machines and processes (IEC 61131). It <u>replaced hard-wired relay panels</u>.</div>
+<p><b>Advantages:</b> easy reprogramming (no rewiring), compact, reliable in noisy/dusty factories, fault diagnosis, fast, cheap for complex logic, communication with SCADA/HMI.</p>
+
+<h4>Basic PLC structure</h4>
+<div class="fig"><svg viewBox="0 0 680 320" role="img" aria-label="PLC basic structure">
+  <g class="sk">
+    <rect class="bf" x="270" y="16" width="140" height="40" rx="5"/>
+    <rect class="b d" x="120" y="74" width="440" height="160" rx="10"/>
+    <rect class="bf" x="140" y="96" width="100" height="120" rx="5"/>
+    <rect class="bf" x="270" y="96" width="140" height="56" rx="5"/>
+    <rect class="bf" x="270" y="164" width="140" height="52" rx="5"/>
+    <rect class="bf" x="440" y="96" width="100" height="120" rx="5"/>
+    <path class="a" d="M340 56V72" marker-end="url(#ar)"/>
+    <path class="a" d="M240 124H268M410 124H438" marker-end="url(#ar)"/>
+    <path class="a" d="M340 154V162" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="a" d="M70 110H138M70 140H138M70 170H138M70 200H138" marker-end="url(#ar)"/>
+    <path class="a" d="M540 110H600M540 140H600M540 170H600M540 200H600" marker-end="url(#ar)"/>
+    <rect class="bf" x="270" y="262" width="140" height="44" rx="5"/>
+    <path class="a" d="M340 236V260" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  </g>
+  <text class="c" x="340" y="41">Power supply</text>
+  <text class="s r" x="128" y="90">PLC</text>
+  <text class="c" x="190" y="140">Input</text><text class="c" x="190" y="158">module</text><text class="c s" x="190" y="178">(opto-isolated)</text>
+  <text class="c r" x="340" y="122">Processor</text><text class="c s" x="340" y="140">CPU – executes program</text>
+  <text class="c" x="340" y="186">Memory</text><text class="c s" x="340" y="204">program + data + I/O image</text>
+  <text class="c" x="490" y="140">Output</text><text class="c" x="490" y="158">module</text><text class="c s" x="490" y="178">(relay/triac/</text><text class="c s" x="490" y="194">transistor)</text>
+  <text class="s" x="4" y="106">push button</text><text class="s" x="4" y="136">limit switch</text><text class="s" x="4" y="166">proximity</text><text class="s" x="4" y="196">sensors</text>
+  <text class="s" x="604" y="106">motor</text><text class="s" x="604" y="136">solenoid</text><text class="s" x="604" y="166">lamp</text><text class="s" x="604" y="196">valve</text>
+  <text class="c" x="340" y="281">Programming device</text><text class="c s" x="340" y="298">(PC / handheld / HMI)</text>
+</svg></div>
+<p class="cap">Fig 3 – Basic PLC structure</p>
+<ul>
+  <li><b>Processor (CPU)</b> – interprets input signals, executes stored program, sends decisions as output signals.</li>
+  <li><b>Power supply</b> – converts 230 V AC to low DC (5 V / 24 V) for processor &amp; modules.</li>
+  <li><b>Memory</b> – ROM (OS/firmware), RAM (user program, data), EEPROM/battery backup.</li>
+  <li><b>Input/Output modules</b> – the interface; provide <span class="hl">opto-isolation</span> and signal level conversion (e.g., 24 V DC/230 V AC → 5 V logic). Output types: relay (AC/DC, slow), transistor (DC, fast), triac (AC).</li>
+  <li><b>Programming device</b> – enter/edit program, monitor online.</li>
+  <li><b>Communication interface</b> – connects to other PLCs, HMI, SCADA (Modbus, Profibus, Ethernet/IP).</li>
+</ul>
+
+<h4>Input / output processing (scan cycle)</h4>
+<div class="fig"><svg viewBox="0 0 600 300" role="img" aria-label="PLC scan cycle">
+  <g class="sk">
+    <ellipse class="b d" cx="300" cy="150" rx="170" ry="105"/>
+    <rect class="bf" x="200" y="20" width="200" height="54" rx="8"/>
+    <rect class="bf" x="420" y="122" width="170" height="56" rx="8"/>
+    <rect class="bf" x="200" y="226" width="200" height="54" rx="8"/>
+    <rect class="bf" x="10" y="122" width="170" height="56" rx="8"/>
+    <path class="a" d="M400 60 Q470 75 495 120" marker-end="url(#ar)"/>
+    <path class="a" d="M495 180 Q470 230 402 250" marker-end="url(#ar)"/>
+    <path class="a" d="M198 250 Q130 230 105 180" marker-end="url(#ar)"/>
+    <path class="a" d="M105 120 Q130 75 198 58" marker-end="url(#ar)"/>
+  </g>
+  <text class="c r" x="300" y="43">① Input scan</text><text class="c s" x="300" y="62">read all inputs → input image table</text>
+  <text class="c r" x="505" y="146">② Program scan</text><text class="c s" x="505" y="165">execute rungs top → bottom</text>
+  <text class="c r" x="300" y="249">③ Output scan</text><text class="c s" x="300" y="268">output image → output terminals</text>
+  <text class="c r" x="95" y="146">④ Housekeeping</text><text class="c s" x="95" y="165">comms, self-diagnosis</text>
+  <text class="c" x="300" y="145">Scan time</text><text class="c s" x="300" y="163">typically 1 – 50 ms</text>
+</svg></div>
+<p class="cap">Fig 4 – PLC scan cycle (repeats continuously)</p>
+<p>Two ways of handling I/O:</p>
+<ol>
+  <li><b>Continuous updating</b> – processor reads each input only when that instruction is met in the program; output updated immediately. Simple but slow for big programs.</li>
+  <li><b>Mass I/O copying</b> – <span class="hl">all inputs are copied into RAM (input image) at the start of scan</span>, program works on the copy, and all outputs are written together at the end. Faster and consistent – used in most PLCs.</li>
+</ol>
+<p><b>I/O addressing:</b> Mitsubishi X0, X1… (inputs) / Y0, Y1… (outputs) / M (internal relays) · Siemens I0.0 / Q0.0 / M0.0 · Allen-Bradley I:0/1, O:0/1.</p>
+
+<h3 id="ladder"><span class="n">3.4</span>Ladder Programming</h3>
+<div class="def"><b>Ladder diagram (LD)</b> is a graphical PLC language that looks like a relay circuit: two vertical <b>power rails</b>, horizontal <b>rungs</b> with contacts (inputs) on the left and a coil (output) on the right.</div>
+<div class="fig"><svg viewBox="0 0 640 290" role="img" aria-label="Ladder diagram for AND, OR and NOT logic">
+  <g class="sk">
+    <path class="b" d="M30 14V276M610 14V276" stroke-width="3"/>
+    <path class="b" d="M30 50H110M150 50H230M270 50H520M560 50H610"/>
+    <path class="b" d="M30 130H110M150 130H520M560 130H610M80 130V190H110M150 190H200V130"/>
+    <path class="b" d="M30 245H110M150 245H520M560 245H610"/>
+  </g>
+  <use href="#no" x="110" y="35"/><use href="#no" x="230" y="35"/><use href="#coil" x="520" y="35"/>
+  <use href="#no" x="110" y="115"/><use href="#no" x="110" y="175"/><use href="#coil" x="520" y="115"/>
+  <use href="#nc" x="110" y="230"/><use href="#coil" x="520" y="230"/>
+  <text class="c" x="130" y="30">A (X0)</text><text class="c" x="250" y="30">B (X1)</text><text class="c" x="540" y="30">Y0</text>
+  <text class="r" x="330" y="44">AND:  Y0 = A · B</text>
+  <text class="c" x="130" y="110">A</text><text class="c" x="130" y="220">A</text><text class="c" x="130" y="173">B</text><text class="c" x="540" y="110">Y1</text>
+  <text class="r" x="300" y="124">OR:  Y1 = A + B</text>
+  <text class="c" x="540" y="225">Y2</text>
+  <text class="r" x="300" y="239">NOT:  Y2 = Ā</text>
+  <text class="s i" x="18" y="12">L+</text><text class="s i" x="600" y="12">N</text>
+</svg></div>
+<p class="cap">Fig 5 – Series = AND, parallel = OR, NC contact = NOT</p>
+<div class="tbl"><table>
+  <tr><th>Symbol</th><th>Name</th><th>Meaning</th></tr>
+  <tr><td>—| |—</td><td>Normally open (NO) contact</td><td>Passes power when input is ON (1)</td></tr>
+  <tr><td>—|/|—</td><td>Normally closed (NC) contact</td><td>Passes power when input is OFF (0)</td></tr>
+  <tr><td>—( )—</td><td>Output coil</td><td>Energised if rung is logically true</td></tr>
+</table></div>
+<h4>Rules for drawing ladder</h4>
+<ol>
+  <li>Read left → right, top → bottom (order of scan).</li>
+  <li>Each rung starts at left rail with input contacts and ends at right rail with <b>one output</b>.</li>
+  <li>Outputs (coils) are never placed on the left; contacts never on the right of a coil.</li>
+  <li>A contact can be used many times; an output address normally only <b>once</b> as a coil.</li>
+  <li>Every input/output is given an address (X0, Y0…).</li>
+</ol>
+<h4>Instruction list (mnemonics) – Mitsubishi style</h4>
+<div class="tbl"><table>
+  <tr><th>Mnemonic</th><th>Meaning</th><th>AND rung above</th></tr>
+  <tr><td>LD / LDI</td><td>Start rung with NO / NC contact</td><td>LD X0</td></tr>
+  <tr><td>AND / ANI</td><td>Series NO / NC contact</td><td>AND X1</td></tr>
+  <tr><td>OR / ORI</td><td>Parallel NO / NC contact</td><td>OUT Y0</td></tr>
+  <tr><td>OUT</td><td>Output coil</td><td></td></tr>
+</table></div>
+<p><b>Other logic:</b> NAND = two NC contacts in parallel; NOR = two NC in series; XOR = (A·B̄) + (Ā·B) – two branches.</p>
+
+<h3 id="latch"><span class="n">3.5</span>Latching &amp; Internal Relays</h3>
+<div class="def"><b>Latching (self-holding)</b> keeps an output ON after the momentary input (push button) is released, by putting a contact of the output itself in parallel with the input.</div>
+<div class="fig"><svg viewBox="0 0 640 220" role="img" aria-label="Start stop latching ladder circuit">
+  <g class="sk">
+    <path class="b" d="M30 14V206M610 14V206" stroke-width="3"/>
+    <path class="b" d="M30 55H100M140 55H250M290 55H520M560 55H610M70 55V115H100M140 115H180V55"/>
+    <path class="b" d="M30 175H100M140 175H520M560 175H610"/>
+  </g>
+  <use href="#no" x="100" y="40"/><use href="#nc" x="250" y="40"/><use href="#coil" x="520" y="40"/>
+  <use href="#no" x="100" y="100"/>
+  <use href="#no" x="100" y="160"/><use href="#coil" x="520" y="160"/>
+  <text class="c" x="120" y="33">Start X0</text><text class="c" x="270" y="33">Stop X1</text><text class="c" x="540" y="33">Motor Y0</text>
+  <text class="c r" x="120" y="146">Y0 (latch contact)</text>
+  <text class="c" x="120" y="156"> </text><text class="c" x="120" y="198">Y0</text><text class="c" x="540" y="155">Lamp Y1</text>
+  <text class="s i" x="330" y="96">press Start → Y0 ON → Y0 contact closes</text>
+  <text class="s i" x="330" y="114">→ stays ON after Start is released.</text>
+  <text class="s i" x="330" y="132">press Stop (NC opens) → unlatches.</text>
+</svg></div>
+<p class="cap">Fig 6 – Start/Stop latch circuit (motor control)</p>
+<ul>
+  <li>Stop button wired as NC for <b>fail-safe</b>: a broken wire stops the motor.</li>
+  <li><b>SET / RESET (SET/RST, S/R)</b> instructions do the same job: SET Y0 latches, RST Y0 unlatches.</li>
+</ul>
+<h4>Internal relays (auxiliary relays / markers / flags)</h4>
+<ul>
+  <li>Software bits inside PLC memory (<b>M0, M100…</b> or <b>B3:0</b>) that behave like relays but have <u>no physical output terminal</u>.</li>
+  <li>Used to store intermediate results, build complex logic, start several outputs from one condition, and in latch / sequencing / shift-register programs.</li>
+  <li><b>Battery-backed (retentive) relays</b> keep their state during power failure — so the process resumes from the same step.</li>
+</ul>
+
+<h3 id="seq"><span class="n">3.6</span>Sequencing</h3>
+<p>Many machines run actions in a fixed order (e.g., drilling: clamp → drill down → drill up → unclamp). Sequence is controlled using limit switches, internal relays, timers, or a sequencer (drum) instruction.</p>
+<p><b>Example – two pneumatic cylinders A, B: sequence <span class="hl">A+ B+ A− B−</span></b> (+ = extend, − = retract). Limit switches: a0/a1 (A retracted/extended), b0/b1.</p>
+<div class="fig"><svg viewBox="0 0 580 210" role="img" aria-label="Displacement step diagram for A plus B plus A minus B minus">
+  <g class="sk">
+    <path class="b d" d="M90 20V190M190 20V190M290 20V190M390 20V190M490 20V190" stroke-width="1.2"/>
+    <path class="rr" d="M90 90H190L290 40H390L490 90" stroke-width="3"/>
+    <path class="a" d="M90 175H290L390 125H490L540 175" stroke-width="3"/>
+  </g>
+  <text class="c" x="90" y="16">1</text><text class="c" x="190" y="16">2</text><text class="c" x="290" y="16">3</text><text class="c" x="390" y="16">4</text><text class="c" x="490" y="16">5=1</text>
+  <text class="r" x="20" y="70">Cyl A</text><text class="s" x="66" y="44">1</text><text class="s" x="66" y="94">0</text>
+  <text class="i" x="20" y="155">Cyl B</text><text class="s" x="66" y="129">1</text><text class="s" x="66" y="179">0</text>
+  <text class="c s r" x="240" y="56">A+</text><text class="c s r" x="440" y="56">A−</text>
+  <text class="c s i" x="340" y="142">B+</text><text class="c s i" x="520" y="142">B−</text>
+</svg></div>
+<p class="cap">Fig 7 – Displacement–step diagram for A+ B+ A− B−</p>
+<p><b>Logic:</b> A+ = Start · a0 · b0 &nbsp;|&nbsp; B+ = a1 &nbsp;|&nbsp; A− = b1 &nbsp;|&nbsp; B− = a0 (after A−). Each step is stored in an internal relay (M1…M4) which is latched and the previous one reset — this avoids two signals conflicting (<b>signal overlap</b>).</p>
+
+<h3 id="timer"><span class="n">3.7</span>Timers &amp; Counters</h3>
+<h4>Timers</h4>
+<ul>
+  <li><b>TON – On-delay timer:</b> output turns ON after preset time once input stays ON. (Most common.)</li>
+  <li><b>TOF – Off-delay timer:</b> output ON immediately, turns OFF preset time after input goes OFF (e.g., cooling fan runs after motor stops).</li>
+  <li><b>RTO – Retentive timer:</b> accumulates time over several ON periods; needs a RESET.</li>
+  <li><b>Pulse timer (TP):</b> gives a fixed-width pulse.</li>
+  <li>Time = <b>Preset (PV/PRE)</b> × time base (10 ms, 100 ms, 1 s). Accumulated value = ACC/ET.</li>
+</ul>
+<div class="fig"><svg viewBox="0 0 640 330" role="img" aria-label="On delay timer ladder and timing diagram">
+  <g class="sk">
+    <path class="b" d="M30 14V150M610 14V150" stroke-width="3"/>
+    <path class="b" d="M30 50H100M140 50H330M470 50H610"/>
+    <rect class="bf" x="330" y="22" width="140" height="62" rx="4"/>
+    <path class="b" d="M30 120H100M140 120H520M560 120H610"/>
+    <path class="b" d="M70 300H600M70 220H600" stroke-width="1"/>
+    <path class="a" d="M70 220H150V180H430V220H600" stroke-width="2.6"/>
+    <path class="rr" d="M70 300H350V260H430V300H600" stroke-width="2.6"/>
+    <path class="b d" d="M150 175V310M350 175V310" stroke-width="1"/>
+    <path class="rr" d="M152 315H348" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  </g>
+  <use href="#no" x="100" y="35"/><use href="#no" x="100" y="105"/><use href="#coil" x="520" y="105"/>
+  <text class="c" x="120" y="30">X0</text>
+  <text class="c r" x="400" y="46">TON  T0</text><text class="c s" x="400" y="64">PRE = 5 s</text><text class="c s" x="400" y="79">(K50 × 0.1 s)</text>
+  <text class="c" x="120" y="100">T0</text><text class="c" x="540" y="100">Y0</text>
+  <text class="i" x="10" y="200">X0</text>
+  <text class="r" x="10" y="282">T0/Y0</text>
+  <text class="c s r" x="250" y="328">delay = preset 5 s</text>
+  <text class="s" x="440" y="196">output drops when input drops</text>
+</svg></div>
+<p class="cap">Fig 8 – On-delay timer: ladder + timing diagram</p>
+
+<h4>Counters</h4>
+<ul>
+  <li><b>CTU – Up counter:</b> counts rising edges; when <b>count = preset</b>, counter contact closes.</li>
+  <li><b>CTD – Down counter:</b> counts down from preset to 0.</li>
+  <li><b>CTUD – Up/down counter</b> (e.g., cars entering/leaving a car park).</li>
+  <li>Always needs a <b>RESET</b> input to bring the count back to zero.</li>
+</ul>
+<div class="fig"><svg viewBox="0 0 640 220" role="img" aria-label="Up counter ladder for packing 10 items">
+  <g class="sk">
+    <path class="b" d="M30 14V206M610 14V206" stroke-width="3"/>
+    <path class="b" d="M30 50H100M140 50H330M470 50H610"/>
+    <rect class="bf" x="330" y="22" width="140" height="62" rx="4"/>
+    <path class="b" d="M30 120H100M140 120H330"/>
+    <rect class="bf" x="330" y="104" width="140" height="32" rx="4"/>
+    <path class="b" d="M470 120H610M30 180H100M140 180H520M560 180H610"/>
+  </g>
+  <use href="#no" x="100" y="35"/><use href="#no" x="100" y="105"/><use href="#no" x="100" y="165"/><use href="#coil" x="520" y="165"/>
+  <text class="c" x="120" y="30">X0 item sensor</text>
+  <text class="c r" x="400" y="46">CTU  C0</text><text class="c s" x="400" y="66">PV = 10</text>
+  <text class="c" x="120" y="100">X1 reset</text><text class="c r" x="400" y="126">RES C0</text>
+  <text class="c" x="120" y="160">C0</text><text class="c" x="540" y="160">Y0</text>
+  <text class="s i" x="200" y="200">after 10 items → C0 closes → Y0 (box-full / next box) ON</text>
+</svg></div>
+<p class="cap">Fig 9 – Up counter: packing 10 items per box</p>
+
+<h3 id="shift"><span class="n">3.8</span>Shift Registers</h3>
+<div class="def">A <b>shift register</b> is a group of internal relays (usually 8 or 16 bits, e.g., M100–M107) in which each bit's status is <b>moved one place</b> along each time a <b>shift (clock) pulse</b> arrives. Used to <b>track items</b> on a conveyor.</div>
+<p>Three inputs: <b>OUT</b> (data in – value entered into first bit), <b>SFT</b> (shift pulse) and <b>RST</b> (clear all bits).</p>
+<div class="fig"><svg viewBox="0 0 640 230" role="img" aria-label="8-bit shift register before and after a shift pulse">
+  <g class="sk">
+    <path class="b" d="M110 40h480v44h-480zM170 40v44M230 40v44M290 40v44M350 40v44M410 40v44M470 40v44M530 40v44"/>
+    <path class="b" d="M110 150h480v44h-480zM170 150v44M230 150v44M290 150v44M350 150v44M410 150v44M470 150v44M530 150v44"/>
+    <path class="a" d="M40 62H108M40 172H108" marker-end="url(#ar)"/>
+    <path class="rr" d="M140 92 Q170 120 200 146M200 92 Q230 120 260 146M260 92 Q290 120 320 146M320 92 Q350 120 380 146M380 92 Q410 120 440 146M440 92 Q470 120 500 146M500 92 Q530 120 560 146" marker-end="url(#arr)"/>
+    <path class="a" d="M590 172H630" marker-end="url(#ar)"/>
+  </g>
+  <text class="s" x="112" y="34">M100</text><text class="s" x="532" y="34">M107</text>
+  <text class="c" x="140" y="69">1</text><text class="c" x="200" y="69">0</text><text class="c" x="260" y="69">1</text><text class="c" x="320" y="69">1</text><text class="c" x="380" y="69">0</text><text class="c" x="440" y="69">0</text><text class="c" x="500" y="69">1</text><text class="c" x="560" y="69">0</text>
+  <text class="c r" x="140" y="179">0</text><text class="c" x="200" y="179">1</text><text class="c" x="260" y="179">0</text><text class="c" x="320" y="179">1</text><text class="c" x="380" y="179">1</text><text class="c" x="440" y="179">0</text><text class="c" x="500" y="179">0</text><text class="c" x="560" y="179">1</text>
+  <text class="s i" x="10" y="56">data in</text><text class="s i" x="20" y="76">(0)</text>
+  <text class="s i" x="10" y="166">data in</text>
+  <text class="s r" x="560" y="124">shift pulse →</text>
+  <text class="s" x="112" y="215">after ONE shift pulse every bit moves one place right; last bit (M107) is lost</text>
+</svg></div>
+<p class="cap">Fig 10 – 8-bit shift register before and after a shift</p>
+<p><b>Application – rejecting faulty bottles:</b> inspection sensor at station 1 puts "1" (faulty) into M100; each bottle movement gives a shift pulse; when the "1" reaches M104 (the reject station) it energises the reject solenoid.</p>
+
+<h3 id="mcr"><span class="n">3.9</span>Master Control &amp; Jump Controls</h3>
+<div class="fig"><svg viewBox="0 0 640 300" role="img" aria-label="Master control relay zone and jump label">
+  <g class="sk">
+    <path class="b" d="M30 14V286M330 14V286" stroke-width="3"/>
+    <path class="b" d="M30 40H70M110 40H240"/><rect class="bf" x="240" y="26" width="70" height="28" rx="3"/><path class="b" d="M310 40H330"/>
+    <rect class="hlf" x="34" y="62" width="292" height="122" rx="4"/>
+    <path class="b" d="M30 90H70M110 90H260M300 90H330M30 140H70M110 140H260M300 140H330"/>
+    <path class="b" d="M30 220H240"/><rect class="bf" x="240" y="206" width="70" height="28" rx="3"/><path class="b" d="M310 220H330"/>
+    <path class="b" d="M340 14V286M630 14V286" stroke-width="3"/>
+    <path class="b" d="M340 40H380M420 40H540"/><rect class="bf" x="540" y="26" width="70" height="28" rx="3"/><path class="b" d="M610 40H630"/>
+    <path class="b d" d="M340 100H630M340 150H630" stroke-width="1.2"/>
+    <path class="b" d="M340 220H540"/><rect class="bf" x="540" y="206" width="70" height="28" rx="3"/><path class="b" d="M610 220H630"/>
+    <path class="rr" d="M618 58 Q660 140 618 204" marker-end="url(#arr)"/>
+  </g>
+  <use href="#no" x="70" y="25"/><use href="#no" x="70" y="75"/><use href="#coil" x="260" y="75"/><use href="#no" x="70" y="125"/><use href="#coil" x="260" y="125"/>
+  <use href="#no" x="380" y="25"/>
+  <text class="c" x="90" y="22">X10</text><text class="c r" x="275" y="45">MCR</text>
+  <text class="s" x="190" y="78">rung 2</text><text class="s" x="190" y="128">rung 3</text>
+  <text class="c r" x="275" y="225">MCR END</text>
+  <text class="s i" x="40" y="200">zone controlled by MCR</text>
+  <text class="s" x="40" y="270">X10 OFF → all outputs in zone OFF</text>
+  <text class="c" x="400" y="22">X11</text><text class="c r" x="575" y="45">JMP L1</text>
+  <text class="s" x="400" y="125">rungs skipped</text><text class="s" x="400" y="143">(outputs frozen)</text>
+  <text class="c r" x="575" y="225">LBL L1</text>
+  <text class="s" x="350" y="270">X11 ON → scan jumps to label L1</text>
+</svg></div>
+<p class="cap">Fig 11 – Left: master control relay (MCR) zone · Right: jump (JMP / LBL)</p>
+<ul>
+  <li><b>Master control relay (MCR):</b> switches a whole <b>block of rungs</b> on/off together. If the MCR rung is false, all non-retentive outputs inside the zone are turned OFF. Used for emergency/section shutdown. Zone ends with MCR END (MCE).</li>
+  <li><b>Jump (JMP) &amp; Label (LBL):</b> when the jump condition is true, the PLC <b>skips</b> rungs up to the label. Outputs in the skipped section are <u>held in their last state</u> (not turned off). Saves scan time; used to choose between two program sections (e.g., manual / auto mode).</li>
+  <li><b>Difference:</b> MCR → outputs OFF · JMP → outputs frozen.</li>
+</ul>
+
+<h3 id="code"><span class="n">3.10</span>Code Conversion &amp; Data Handling</h3>
+<h4>Code conversion</h4>
+<p>Field devices often use <b>BCD</b> (thumbwheel switches, 7-segment displays) while the PLC works in <b>binary</b>. PLCs provide <b>BIN</b> (BCD → binary) and <b>BCD</b> (binary → BCD) instructions; also Gray code (from absolute encoders) and ASCII.</p>
+<div class="tbl"><table>
+  <tr><th>Decimal</th><th>Binary</th><th>BCD</th><th>Gray</th></tr>
+  <tr><td>5</td><td>0101</td><td>0000 0101</td><td>0111</td></tr>
+  <tr><td>9</td><td>1001</td><td>0000 1001</td><td>1101</td></tr>
+  <tr><td>12</td><td>1100</td><td>0001 0010</td><td>1010</td></tr>
+  <tr><td>59</td><td>0011 1011</td><td>0101 1001</td><td>—</td></tr>
+</table></div>
+<p><b>Worked:</b> 59 → BCD: 5 = 0101, 9 = 1001 ⇒ <span class="hl">0101 1001</span>. &nbsp; Binary → Gray: G<sub>n</sub> = B<sub>n</sub>, G<sub>i</sub> = B<sub>i+1</sub> ⊕ B<sub>i</sub> (e.g., 1100 → 1010). Gray code changes only 1 bit between steps ⇒ no false readings in encoders.</p>
+<h4>Data handling</h4>
+<p>PLCs store 16-bit words in <b>data registers</b> (D0, D1…; N7:0). Instructions:</p>
+<ul>
+  <li><b>Move:</b> MOV / MOVE source → destination (copy a value, e.g., load new timer preset).</li>
+  <li><b>Compare:</b> EQU (=), NEQ (≠), GRT (&gt;), LES (&lt;), GEQ, LEQ – contact closes if true. E.g., <i>if temperature D0 &gt; 80 then turn heater OFF</i>.</li>
+  <li><b>Arithmetic:</b> ADD, SUB, MUL, DIV, SQR.</li>
+  <li><b>Logical:</b> word AND, OR, XOR, NOT; masking bits.</li>
+  <li><b>Block transfer / FIFO / table</b> functions for recipes &amp; logging; analog inputs read through ADC modules as numbers (0–4095).</li>
+</ul>
+
+<h3 id="select"><span class="n">3.11</span>Selection of a PLC</h3>
+<ol>
+  <li><b>Number of I/O points</b> required (+ 20% spare for expansion).</li>
+  <li><b>Type of I/O</b> – digital/analog, AC/DC, voltage &amp; current levels, relay vs transistor outputs, special modules (high-speed counter, PID, stepper).</li>
+  <li><b>Memory size</b> needed for program &amp; data.</li>
+  <li><b>Speed</b> – scan time required by process.</li>
+  <li><b>Instruction set / functions</b> – timers, counters, maths, PID, shift registers.</li>
+  <li><b>Communication</b> – Ethernet, Modbus, Profibus, HMI/SCADA networking.</li>
+  <li><b>Environment</b> – temperature, humidity, vibration, dust, EMI.</li>
+  <li><b>Type</b> – compact/fixed (small machines) vs modular/rack (large plants).</li>
+  <li><b>Cost, vendor support, software, programming language</b> (IEC 61131-3: LD, FBD, ST, IL, SFC).</li>
+</ol>
+<div class="tip">Remember the IEC 61131-3 languages as "<b>L-F-S-I-S</b>": Ladder, Function block, Structured text, Instruction list, Sequential function chart.</div>
+
+<!-- ===================================================== UNIT IV -->
+<h2>UNIT – IV</h2>
+
+<h3 id="ai"><span class="n">4.1</span>AI Inclusion in Mechatronics</h3>
+<p>Classic mechatronics = mechanics + electronics + control + computing. Adding <b>Artificial Intelligence</b> makes the system able to <span class="hl">perceive, learn, decide and adapt</span> instead of only following fixed rules — "intelligent mechatronic systems".</p>
+<div class="fig"><svg viewBox="0 0 640 290" role="img" aria-label="AI-enabled mechatronic control loop">
+  <g class="sk">
+    <rect class="b d" x="400" y="8" width="230" height="46" rx="10"/>
+    <rect class="bf" x="30" y="80" width="160" height="52" rx="6"/>
+    <rect class="bf" x="230" y="80" width="160" height="52" rx="6"/>
+    <rect class="bf" x="430" y="80" width="180" height="52" rx="6"/>
+    <rect class="bf" x="430" y="210" width="180" height="52" rx="6"/>
+    <rect class="bf" x="230" y="210" width="160" height="52" rx="6"/>
+    <rect class="bf" x="30" y="210" width="160" height="52" rx="6"/>
+    <path class="a" d="M190 106H228M390 106H428" marker-end="url(#ar)"/>
+    <path class="a" d="M520 132V208" marker-end="url(#ar)"/>
+    <path class="a" d="M430 236H392M230 236H192" marker-end="url(#ar)"/>
+    <path class="a" d="M110 210V134" marker-end="url(#ar)"/>
+    <path class="a d" d="M515 54V78" marker-start="url(#ar)" marker-end="url(#ar)"/>
+  </g>
+  <text class="c s" x="515" y="28">Cloud / digital twin</text><text class="c s" x="515" y="45">training, predictive maintenance</text>
+  <text class="c" x="110" y="104">Sensors</text><text class="c s" x="110" y="122">camera, LiDAR, IMU</text>
+  <text class="c" x="310" y="104">Signal cond. + DAQ</text><text class="c s" x="310" y="122">filter, ADC, features</text>
+  <text class="c r" x="520" y="104">AI / ML engine</text><text class="c s" x="520" y="122">perceive · predict · decide</text>
+  <text class="c" x="520" y="234">Controller</text><text class="c s" x="520" y="252">PID / fuzzy / NN, RTOS</text>
+  <text class="c" x="310" y="234">Actuators</text><text class="c s" x="310" y="252">motors, valves, drives</text>
+  <text class="c" x="110" y="234">Physical process</text><text class="c s" x="110" y="252">robot / machine / vehicle</text>
+  <text class="s i" x="118" y="176">feedback</text>
+</svg></div>
+<p class="cap">Fig 12 – Where AI sits inside a mechatronic loop</p>
+<div class="two">
+<div>
+<p><b>AI techniques used</b></p>
+<ul>
+  <li><b>Machine learning</b> – regression/classification from sensor data.</li>
+  <li><b>Computer vision (CNN)</b> – object detection, quality inspection, pick-point finding.</li>
+  <li><b>Fuzzy logic control</b> – rules like "IF temp is high THEN fan is fast" (washing machines, ACs).</li>
+  <li><b>Neural-network control</b> – learns nonlinear plant models.</li>
+  <li><b>Reinforcement learning</b> – robot learns by trial &amp; reward.</li>
+</ul></div>
+<div>
+<p><b>Applications</b></p>
+<ul>
+  <li>Predictive maintenance (vibration analysis → predict bearing failure).</li>
+  <li>Autonomous vehicles / AGVs – path planning, obstacle avoidance (SLAM).</li>
+  <li>Smart robots – adaptive gripping, human-robot collaboration.</li>
+  <li>Self-tuning controllers, anomaly/fault detection.</li>
+  <li><b>Edge AI / TinyML</b> – models running on MCU itself.</li>
+</ul></div>
+</div>
+<p><b>Benefits:</b> adaptability, higher accuracy, less downtime, handles uncertainty. <b>Challenges:</b> needs large data, high compute, explainability, safety certification, real-time limits.</p>
+
+<h3 id="sc"><span class="n">4.2</span>Signal Conditioning &amp; Data Acquisition</h3>
+<div class="def"><b>Signal conditioning</b> = processing the raw sensor output so that it becomes suitable for the next stage (ADC / controller): right level, clean, safe and linear.</div>
+<h4>Functions of signal conditioning</h4>
+<ol>
+  <li><b>Protection</b> – against high voltage/current (zener diode, fuse, current-limiting resistor, opto-isolator).</li>
+  <li><b>Amplification</b> – mV signals (thermocouple, strain gauge) → volts, using op-amps.</li>
+  <li><b>Filtering</b> – remove noise: low-pass, high-pass, band-pass, notch (50 Hz mains).</li>
+  <li><b>Conversion</b> – resistance → voltage (Wheatstone bridge), current 4–20 mA → voltage, analog ↔ digital.</li>
+  <li><b>Isolation</b> – optical/transformer isolation between sensor and controller.</li>
+  <li><b>Linearisation</b> – correct nonlinear sensor output (look-up table/software).</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 520 210" role="img" aria-label="Inverting op-amp amplifier">
+  <g class="sk">
+    <path class="b" d="M200 50L200 150L300 100Z"/>
+    <circle class="b" cx="40" cy="75" r="4"/>
+    <path class="b" d="M44 75H80L88 67L100 83L112 67L124 83L132 75H200"/>
+    <path class="b" d="M160 75V30H210L218 22L230 38L242 22L254 38L262 30H340V100"/>
+    <path class="b" d="M300 100H390"/><circle class="b" cx="394" cy="100" r="4"/>
+    <path class="b" d="M200 125H170V165M155 165H185M161 172H179M167 179H173"/>
+    <circle class="dot" cx="160" cy="75" r="3.5"/><circle class="dot" cx="340" cy="100" r="3.5"/>
+  </g>
+  <text x="206" y="81" style="font-size:20px">−</text><text x="206" y="131" style="font-size:18px">+</text>
+  <text x="20" y="66">Vin</text><text class="c" x="106" y="104">R1</text><text class="c" x="236" y="16">Rf</text>
+  <text x="404" y="105">Vout</text>
+  <text class="r" x="300" y="160">Gain = Vout/Vin = − Rf / R1</text>
+  <text class="s" x="300" y="182">(non-inverting: 1 + Rf/R1)</text>
+</svg></div>
+<p class="cap">Fig 13 – Inverting op-amp amplifier (most asked signal-conditioning circuit)</p>
+
+<h4>Data Acquisition System (DAQ)</h4>
+<div class="def"><b>DAQ</b> = the process of measuring physical quantities with sensors, conditioning them, converting to digital form and storing/processing them in a computer.</div>
+<div class="fig"><svg viewBox="0 0 640 230" role="img" aria-label="Data acquisition system block diagram">
+  <g class="sk">
+    <rect class="bf" x="20" y="50" width="120" height="54" rx="6"/>
+    <rect class="bf" x="175" y="50" width="135" height="54" rx="6"/>
+    <rect class="bf" x="345" y="50" width="115" height="54" rx="6"/>
+    <rect class="bf" x="495" y="50" width="125" height="54" rx="6"/>
+    <rect class="bf" x="495" y="160" width="125" height="54" rx="6"/>
+    <rect class="bf" x="310" y="160" width="150" height="54" rx="6"/>
+    <rect class="bf" x="110" y="160" width="165" height="54" rx="6"/>
+    <path class="a" d="M80 14V48" marker-end="url(#ar)"/>
+    <path class="a" d="M140 77H173M310 77H343M460 77H493" marker-end="url(#ar)"/>
+    <path class="a" d="M558 104V158" marker-end="url(#ar)"/>
+    <path class="a" d="M495 187H462M310 187H277" marker-end="url(#ar)"/>
+    <path class="a" d="M150 64V48M160 64V48M170 64V48" stroke-width="0"/>
+  </g>
+  <text class="s i" x="90" y="24">physical quantity (T, P, F, x)</text>
+  <text class="c" x="80" y="74">Sensor /</text><text class="c" x="80" y="92">transducer</text>
+  <text class="c" x="242" y="74">Signal</text><text class="c" x="242" y="92">conditioning</text>
+  <text class="c" x="402" y="74">Multiplexer</text><text class="c s" x="402" y="92">(many channels)</text>
+  <text class="c" x="557" y="74">Sample &amp;</text><text class="c" x="557" y="92">Hold</text>
+  <text class="c r" x="557" y="185">ADC</text><text class="c s" x="557" y="202">n-bit</text>
+  <text class="c" x="385" y="184">Computer / MCU</text><text class="c s" x="385" y="202">DAQ software</text>
+  <text class="c" x="192" y="184">Display / storage</text><text class="c s" x="192" y="202">/ control action</text>
+</svg></div>
+<p class="cap">Fig 14 – Data acquisition system</p>
+<ul>
+  <li><b>Multiplexer</b> – selects one of many sensor channels at a time to share one ADC.</li>
+  <li><b>Sample &amp; hold</b> – freezes the voltage while ADC converts.</li>
+  <li><b>ADC types</b> – successive approximation (common), flash (fastest), dual-slope (accurate, slow), sigma-delta.</li>
+  <li><b>Sampling theorem (Nyquist):</b> <span class="formula">f<sub>s</sub> ≥ 2 f<sub>max</sub></span> – otherwise <b>aliasing</b>. Use an anti-aliasing low-pass filter.</li>
+  <li><b>Resolution:</b> <span class="formula">Δ V = V<sub>ref</sub> / 2ⁿ</span> &nbsp; e.g., 10-bit, 5 V ⇒ 5/1024 = <span class="hl">4.88 mV</span>; 12-bit ⇒ 1.22 mV.</li>
+  <li><b>DAQ board specs:</b> number of channels, sampling rate, resolution, input range, accuracy.</li>
+</ul>
+
+<h3 id="act"><span class="n">4.3</span>Mechatronic Actuation</h3>
+<div class="def">An <b>actuator</b> converts a control signal (usually electrical) into physical action — motion or force.</div>
+<div class="tbl"><table>
+  <tr><th>Type</th><th>Examples</th><th>Features</th></tr>
+  <tr><td>Electrical</td><td>DC motor, BLDC, stepper, AC servo, solenoid, relay</td><td>Clean, precise, easy to control electronically</td></tr>
+  <tr><td>Hydraulic</td><td>Cylinders, hydraulic motors</td><td>Very high force, used in presses, excavators</td></tr>
+  <tr><td>Pneumatic</td><td>Air cylinders, grippers, valves</td><td>Fast, cheap, clean; less accurate (air compressible)</td></tr>
+  <tr><td>Smart / new</td><td>Piezoelectric, shape memory alloy (SMA), MEMS, electro-active polymers</td><td>Tiny precise motion, built-in sensing</td></tr>
+</table></div>
+<ul>
+  <li><b>Stepper motor</b> – moves in fixed steps (e.g., 1.8° ⇒ 200 steps/rev), open-loop position control. Step angle = 360°/(steps per rev).</li>
+  <li><b>Servo motor</b> – closed loop with encoder feedback for accurate position/speed.</li>
+  <li><b>Drives:</b> MCU pins can't supply motor current ⇒ use driver ICs (L293D, L298), MOSFETs, relays.</li>
+</ul>
+<div class="fig"><svg viewBox="0 0 640 260" role="img" aria-label="H-bridge motor driver and PWM waveform">
+  <g class="sk">
+    <path class="b" d="M60 30H260M60 230H260M80 30V55M80 85V130M80 130V170M80 200V230M240 30V55M240 85V130M240 130V170M240 200V230"/>
+    <path class="rr" d="M80 55L96 82M240 55L224 82M80 170L96 197M240 170L224 197"/>
+    <circle class="dot" cx="80" cy="85" r="3"/><circle class="dot" cx="240" cy="85" r="3"/><circle class="dot" cx="80" cy="200" r="3"/><circle class="dot" cx="240" cy="200" r="3"/>
+    <circle class="b" cx="160" cy="130" r="24"/>
+    <path class="b" d="M80 130H136M184 130H240"/>
+    <path class="b" d="M330 160H620M330 60V170" stroke-width="1"/>
+    <path class="a" d="M330 150V80H378V150H410V80H458V150H490V80H538V150H570V80H618" stroke-width="2.6"/>
+    <path class="rr" d="M332 70H376" marker-start="url(#arr)" marker-end="url(#arr)"/>
+    <path class="rr" d="M332 190H408" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  </g>
+  <text x="140" y="22">+Vs</text><text x="140" y="250">GND</text>
+  <text class="c" x="160" y="136">M</text>
+  <text x="44" y="76">S1</text><text x="252" y="76">S2</text><text x="44" y="192">S3</text><text x="252" y="192">S4</text>
+  <text class="s i" x="20" y="150">S1+S4 ON → forward</text>
+  <text class="s i" x="182" y="170">S2+S3 → reverse</text>
+  <text class="s r" x="340" y="58">Ton</text><text class="s r" x="360" y="210">T (period)</text>
+  <text class="r" x="430" y="200">D = Ton / T</text>
+  <text class="r" x="430" y="222">V<tspan font-size="11">avg</tspan> = D × Vs</text>
+  <text class="s" x="500" y="40">PWM speed control</text>
+</svg></div>
+<p class="cap">Fig 15 – H-bridge for direction + PWM for speed control of a DC motor</p>
+<p class="red">Never switch S1+S3 (or S2+S4) together → short circuit ("shoot-through").</p>
+
+<h3 id="fw"><span class="n">4.4</span>Embedded Firmware Architecture</h3>
+<div class="def"><b>Firmware</b> is the software permanently stored in the non-volatile (Flash) memory of an embedded device that directly controls its hardware. Its <b>architecture</b> is the way that code is organised into layers and modules.</div>
+<div class="fig"><svg viewBox="0 0 620 340" role="img" aria-label="Layered embedded firmware architecture">
+  <g class="sk">
+    <rect class="bf" x="70" y="14" width="440" height="42" rx="5"/>
+    <rect class="bf" x="70" y="64" width="440" height="42" rx="5"/>
+    <rect class="bf" x="70" y="114" width="440" height="42" rx="5"/>
+    <rect class="bf" x="70" y="164" width="440" height="42" rx="5"/>
+    <rect class="bf" x="70" y="214" width="440" height="42" rx="5"/>
+    <rect class="b" x="70" y="268" width="440" height="56" rx="5" stroke-width="3"/>
+    <path class="a" d="M40 320V20" marker-end="url(#ar)"/>
+    <path class="rr" d="M530 64V156" stroke-width="1.5"/>
+  </g>
+  <text class="c r" x="290" y="40">Application tasks – control loop, UI, diagnostics, AI model</text>
+  <text class="c" x="290" y="90">Middleware – comm stacks (CAN, TCP/IP), file system, libraries</text>
+  <text class="c" x="290" y="140">RTOS kernel / scheduler – tasks, queues, timers</text>
+  <text class="c" x="290" y="190">Device drivers – ADC, PWM, UART, SPI, I²C, GPIO</text>
+  <text class="c" x="290" y="240">HAL / BSP + bootloader + startup code</text>
+  <text class="c" x="290" y="294">HARDWARE</text><text class="c s" x="290" y="313">MCU, memory, sensors, actuators</text>
+  <text class="s i" x="12" y="200" transform="rotate(-90 22 200)">abstraction increases</text>
+  <text class="s r" x="540" y="104">portable</text><text class="s r" x="540" y="120">(hardware</text><text class="s r" x="540" y="136">independent)</text>
+</svg></div>
+<p class="cap">Fig 16 – Layered firmware architecture</p>
+<h4>Firmware design models</h4>
+<ol>
+  <li><b>Super loop (bare-metal):</b> <code>init(); while(1){ read(); compute(); write(); }</code> – simple, cheap; but response time depends on loop length, no priorities.</li>
+  <li><b>Interrupt-driven (foreground/background):</b> ISRs handle urgent events, main loop does the rest.</li>
+  <li><b>RTOS-based:</b> work split into prioritised tasks; scheduler guarantees deadlines – used for complex &amp; safety-critical systems.</li>
+  <li><b>Event-driven / state machine:</b> system modelled as states + transitions (good for sequences).</li>
+</ol>
+<p><b>Key parts:</b> bootloader (start-up, firmware update/OTA), HAL (makes code portable across chips), drivers, watchdog timer, memory map (Flash, RAM, stack, heap).</p>
+
+<h3 id="rtos"><span class="n">4.5</span>RTOS for Safety-Critical Systems</h3>
+<div class="def">A <b>Real-Time Operating System (RTOS)</b> is an OS that guarantees a task's response within a fixed, known time (<b>deterministic</b>). Correctness depends on both the <u>logical result</u> and the <u>time</u> at which it is produced.</div>
+<ul>
+  <li><b>Hard real-time</b> – missing a deadline = system failure (airbag, ABS, pacemaker, flight control).</li>
+  <li><b>Soft real-time</b> – occasional miss only degrades quality (video streaming).</li>
+  <li><b>Safety-critical system</b> – failure can cause death, injury or major damage.</li>
+</ul>
+<div class="fig"><svg viewBox="0 0 600 310" role="img" aria-label="RTOS task state diagram">
+  <g class="sk">
+    <ellipse class="bf" cx="130" cy="140" rx="75" ry="30"/>
+    <ellipse class="bf" cx="470" cy="140" rx="75" ry="30"/>
+    <ellipse class="bf" cx="300" cy="272" rx="75" ry="28"/>
+    <ellipse class="bf" cx="300" cy="36" rx="80" ry="26"/>
+    <path class="a" d="M195 125Q300 85 405 125" marker-end="url(#ar)"/>
+    <path class="a" d="M405 157Q300 195 195 157" marker-end="url(#ar)"/>
+    <path class="a" d="M450 169L358 252" marker-end="url(#ar)"/>
+    <path class="a" d="M242 252L150 169" marker-end="url(#ar)"/>
+    <path class="rr d" d="M165 113L240 55" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  </g>
+  <text class="c r" x="130" y="146">READY</text>
+  <text class="c r" x="470" y="146">RUNNING</text>
+  <text class="c r" x="300" y="278">BLOCKED</text>
+  <text class="c r" x="300" y="42">SUSPENDED</text>
+  <text class="c s" x="300" y="96">scheduled (highest priority)</text>
+  <text class="c s" x="300" y="198">pre-empted by higher priority</text>
+  <text class="s" x="420" y="225">waits for event /</text><text class="s" x="420" y="241">delay / semaphore</text>
+  <text class="s" x="80" y="225">event occurs /</text><text class="s" x="80" y="241">timeout</text>
+  <text class="s" x="120" y="76">suspend / resume</text>
+</svg></div>
+<p class="cap">Fig 17 – Task states in an RTOS</p>
+<h4>Key RTOS concepts</h4>
+<ul>
+  <li><b>Task / thread</b> – independent function with its own stack and priority.</li>
+  <li><b>Pre-emptive priority scheduling</b> – highest-priority ready task always runs. <b>Rate Monotonic</b>: shorter period ⇒ higher priority. <b>EDF</b>: earliest deadline first. Round-robin for equal priority.</li>
+  <li><b>Inter-task communication</b> – queues, mailboxes, event flags.</li>
+  <li><b>Semaphore &amp; mutex</b> – protect shared resources (critical sections).</li>
+  <li><b>Priority inversion</b> – high task waits for a resource held by a low task while a medium task runs (Mars Pathfinder 1997 bug). Fix: <span class="hl">priority inheritance</span> / priority ceiling.</li>
+  <li><b>Low interrupt latency &amp; context-switch time</b>, small memory footprint.</li>
+</ul>
+<h4>Safety features needed</h4>
+<div class="two">
+<ul>
+  <li>Determinism &amp; bounded worst-case execution time (WCET).</li>
+  <li><b>Watchdog timer</b> – resets system if software hangs.</li>
+  <li><b>Memory protection (MPU)</b> – one task can't corrupt another.</li>
+  <li>Spatial &amp; temporal partitioning (ARINC 653).</li>
+</ul>
+<ul>
+  <li>Redundancy, fail-safe states, error detection (CRC, ECC).</li>
+  <li>Certified to standards: <b>IEC 61508</b> (SIL 1–4, industrial), <b>ISO 26262</b> (ASIL A–D, cars), <b>DO-178C</b> (aircraft), IEC 62304 (medical).</li>
+  <li>Examples: <b>FreeRTOS / SafeRTOS, VxWorks, QNX, INTEGRITY, Zephyr</b>.</li>
+</ul>
+</div>
+<div class="tip">GPOS vs RTOS: GPOS (Windows/Linux) maximises throughput &amp; fairness; RTOS maximises <b>predictability</b>. Write this line in every RTOS answer.</div>
+
+<h3 id="cad"><span class="n">4.6</span>Building Physics-Accurate CAD Models in Simulation</h3>
+<p>Before building hardware, mechatronic engineers create a <b>virtual prototype</b> — a CAD model that also has correct <b>physics</b> (mass, inertia, friction, joints, motor limits) — and test controllers on it in a simulator. When it stays linked to the real machine with live data it becomes a <span class="hl">digital twin</span>.</p>
+<div class="fig"><svg viewBox="0 0 640 250" role="img" aria-label="CAD to physics simulation workflow">
+  <g class="sk">
+    <rect class="bf" x="20" y="20" width="175" height="62" rx="6"/>
+    <rect class="bf" x="232" y="20" width="175" height="62" rx="6"/>
+    <rect class="bf" x="444" y="20" width="175" height="62" rx="6"/>
+    <rect class="bf" x="444" y="160" width="175" height="62" rx="6"/>
+    <rect class="bf" x="232" y="160" width="175" height="62" rx="6"/>
+    <rect class="bf" x="20" y="160" width="175" height="62" rx="6"/>
+    <path class="a" d="M195 51H230M407 51H442" marker-end="url(#ar)"/>
+    <path class="a" d="M531 82V158" marker-end="url(#ar)"/>
+    <path class="a" d="M444 191H409M232 191H197" marker-end="url(#ar)"/>
+    <path class="rr d" d="M107 158V84" marker-end="url(#arr)"/>
+  </g>
+  <text class="c r" x="107" y="44">① CAD geometry</text><text class="c s" x="107" y="64">SolidWorks, Fusion, CATIA</text>
+  <text class="c r" x="319" y="44">② Physical properties</text><text class="c s" x="319" y="64">material, mass, CoG, inertia</text>
+  <text class="c r" x="531" y="44">③ Joints &amp; contacts</text><text class="c s" x="531" y="64">DOF, limits, friction, damping</text>
+  <text class="c r" x="531" y="184">④ Export model</text><text class="c s" x="531" y="204">URDF / SDF / Simscape</text>
+  <text class="c r" x="319" y="184">⑤ Simulate + control</text><text class="c s" x="319" y="204">Gazebo, Simulink, Adams</text>
+  <text class="c r" x="107" y="184">⑥ Validate</text><text class="c s" x="107" y="204">compare with real test, HIL</text>
+  <text class="s r" x="115" y="125">refine model</text>
+</svg></div>
+<p class="cap">Fig 18 – Workflow: CAD → physics model → simulation → validation</p>
+<ul>
+  <li><b>Accurate parameters:</b> density/material, centre of gravity, moments of inertia, stiffness, gear ratios, motor torque–speed curves, sensor noise.</li>
+  <li><b>Physics engines:</b> ODE, Bullet, MuJoCo, PhysX; tools – MATLAB Simulink/Simscape Multibody, Gazebo/ROS, CoppeliaSim, MSC Adams, ANSYS (FEA/CFD).</li>
+  <li><b>Co-simulation:</b> mechanical model + electrical model + control software together (Model-in-the-loop → Software-in-the-loop → <b>Hardware-in-the-loop</b>).</li>
+  <li><b>Benefits:</b> fewer physical prototypes, lower cost &amp; time, safe testing of failures, controller tuning, training data for AI (sim-to-real).</li>
+  <li><b>Limits:</b> model only as good as its parameters ("reality gap"), heavy computation.</li>
+</ul>
+
+<h3 id="design"><span class="n">4.7</span>Designing Mechatronic Systems</h3>
+<h4>Stages of the design process</h4>
+<ol>
+  <li><b>Need</b> – customer/market need identified.</li>
+  <li><b>Analysis of the problem</b> – understand true problem.</li>
+  <li><b>Specification</b> – requirements: functions, loads, speed, accuracy, cost, size.</li>
+  <li><b>Conceptual design / possible solutions</b> – generate alternatives (mech vs electronic solution).</li>
+  <li><b>Selection</b> of best solution (evaluation matrix).</li>
+  <li><b>Detailed design</b> – components, circuits, software.</li>
+  <li><b>Prototype, test &amp; modify</b>, then <b>production</b> &amp; working drawings.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 640 290" role="img" aria-label="V-model for mechatronic design">
+  <g class="sk">
+    <rect class="bf" x="20" y="20" width="170" height="44" rx="6"/>
+    <rect class="bf" x="85" y="100" width="170" height="44" rx="6"/>
+    <rect class="bf" x="190" y="200" width="260" height="70" rx="6"/>
+    <rect class="bf" x="385" y="100" width="170" height="44" rx="6"/>
+    <rect class="bf" x="450" y="20" width="170" height="44" rx="6"/>
+    <path class="a" d="M105 64L150 98M170 144L230 198" marker-end="url(#ar)"/>
+    <path class="a" d="M410 198L470 146M490 98L535 66" marker-end="url(#ar)"/>
+    <path class="rr d" d="M192 42H448M257 122H383" marker-end="url(#arr)"/>
+    <path class="b" d="M276 222V262M364 222V262" stroke-width="1.2"/>
+  </g>
+  <text class="c" x="105" y="47">Requirements</text>
+  <text class="c" x="170" y="127">System design</text>
+  <text class="c r" x="320" y="216">Domain-specific design</text>
+  <text class="c s" x="233" y="248">Mechanical</text><text class="c s" x="320" y="248">Electrical</text><text class="c s" x="407" y="248">Software</text>
+  <text class="c" x="470" y="127">System integration</text>
+  <text class="c" x="535" y="40">Product</text><text class="c s" x="535" y="56">(verified)</text>
+  <text class="c s r" x="320" y="36">validation</text>
+  <text class="c s r" x="320" y="116">verification</text>
+</svg></div>
+<p class="cap">Fig 19 – V-model for mechatronic design (VDI 2206)</p>
+<div class="tbl"><table>
+  <tr><th>Traditional design</th><th>Mechatronic design</th></tr>
+  <tr><td>Sequential – mechanical first, then electrical, then control added</td><td>Concurrent / integrated – all domains designed together</td></tr>
+  <tr><td>Functions done mechanically (cams, gears, linkages)</td><td>Functions moved to electronics &amp; software (MCU, PLC)</td></tr>
+  <tr><td>Rigid, hard to change</td><td>Flexible – change by reprogramming</td></tr>
+  <tr><td>Bulky, more parts, more wear</td><td>Compact, fewer moving parts, more reliable</td></tr>
+</table></div>
+<p><b>Example of the change:</b> mechanical cam-timer in washing machine → MCU program; mechanical carburettor → electronic fuel injection; analogue bathroom scale (springs/rack) → load-cell + MCU digital scale.</p>
+
+<h3 id="cases"><span class="n">4.8</span>Case Studies of Mechatronic Systems</h3>
+
+<h4>(a) Pick-and-place robot</h4>
+<p>Picks an object from one position and places it at another (assembly lines, packaging, PCB component placement). Typical <b>3-axis</b> design: base rotation, arm extension, vertical motion + gripper.</p>
+<div class="fig"><svg viewBox="0 0 640 320" role="img" aria-label="Sketch of pick and place robot">
+  <g class="sk">
+    <rect class="bf" x="190" y="262" width="180" height="32" rx="4"/>
+    <rect class="bf" x="260" y="110" width="40" height="152"/>
+    <path class="a" d="M226 252 A60 14 0 1 0 334 252" marker-end="url(#ar)"/>
+    <rect class="bf" x="250" y="86" width="190" height="28" rx="3"/>
+    <rect class="bf" x="440" y="93" width="85" height="14"/>
+    <rect class="bf" x="515" y="88" width="22" height="104"/>
+    <path class="b" d="M500 192H552M502 192V230M550 192V230" stroke-width="3"/>
+    <rect class="b" x="510" y="208" width="32" height="24"/>
+    <path class="b" d="M514 212l24 16M514 222l14 10" stroke-width="1"/>
+    <path class="a" d="M430 70H520" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <path class="a" d="M575 110V180" marker-start="url(#ar)" marker-end="url(#ar)"/>
+    <rect class="b d" x="20" y="120" width="140" height="70" rx="6"/>
+    <path class="a d" d="M160 155H258" marker-end="url(#ar)"/>
+    <path class="b" d="M440 250H630M440 270H630" stroke-width="1.5"/>
+    <circle class="b" cx="455" cy="260" r="9"/><circle class="b" cx="615" cy="260" r="9"/>
+  </g>
+  <text class="c" x="90" y="148">Controller</text><text class="c s" x="90" y="166">PLC / MCU</text>
+  <text class="c s" x="280" y="310">base</text>
+  <text class="s i" x="90" y="246">θ rotation – stepper / servo</text>
+  <text class="s i" x="400" y="60">X: arm extend – pneumatic cyl.</text>
+  <text class="s i" x="582" y="140">Z up/</text><text class="s i" x="582" y="156">down</text>
+  <text class="s r" x="340" y="214">gripper – solenoid</text><text class="s r" x="340" y="230">valve / vacuum cup</text>
+  <text class="s" x="490" y="290">conveyor</text>
+</svg></div>
+<p class="cap">Fig 20 – Pick-and-place robot</p>
+<ul>
+  <li><b>Actuators:</b> pneumatic cylinders (linear moves, cheap, fast) + stepper/servo for rotation; gripper by solenoid valve or vacuum suction.</li>
+  <li><b>Sensors:</b> limit switches / reed switches at cylinder ends, proximity sensor to detect part, encoder for angle, vision camera (AI) for random part positions.</li>
+  <li><b>Controller:</b> PLC or MCU running a <b>sequence</b>: detect part → arm out → Z down → grip → Z up → rotate → Z down → release → return.</li>
+  <li><b>Benefits:</b> speed, repeatability, works 24×7, removes humans from hazardous jobs.</li>
+</ul>
+
+<h4>(b) Automated Guided Vehicle (AGV)</h4>
+<p>A driverless, battery-powered vehicle that carries material in factories/warehouses along a guided path.</p>
+<div class="fig"><svg viewBox="0 0 640 310" role="img" aria-label="Top view of automated guided vehicle">
+  <g class="sk">
+    <path class="b d" d="M320 0V310" stroke-width="5" opacity=".35"/>
+    <rect class="bf" x="190" y="60" width="260" height="200" rx="22"/>
+    <rect class="b" x="170" y="135" width="20" height="50" rx="4" stroke-width="3"/>
+    <rect class="b" x="450" y="135" width="20" height="50" rx="4" stroke-width="3"/>
+    <circle class="b" cx="320" cy="245" r="8"/>
+    <circle class="b" cx="320" cy="92" r="14"/>
+    <path class="rr d" d="M300 80L250 20M340 80L390 20M320 78V14" stroke-width="1.4"/>
+    <rect class="b" x="198" y="66" width="18" height="12"/><rect class="b" x="424" y="66" width="18" height="12"/>
+    <rect class="b" x="250" y="120" width="140" height="34" rx="4"/>
+    <rect class="b" x="250" y="166" width="140" height="34" rx="4"/>
+    <path class="b" d="M280 214H360" stroke-width="5" stroke-dasharray="4 6"/>
+    <path class="b" d="M60 160H168M480 160H580M60 72H196M480 72H580M100 245H310M560 214H362M530 112H334" stroke-width="1"/>
+  </g>
+  <text class="s r" x="345" y="16">LiDAR scan</text>
+  <text x="4" y="156" class="s">drive wheel (L)</text><text x="4" y="172" class="s">+ DC/BLDC motor</text>
+  <text x="484" y="156" class="s">drive wheel (R)</text><text x="484" y="172" class="s">+ encoder</text>
+  <text x="4" y="68" class="s">ultrasonic / bumper</text><text x="484" y="68" class="s">ultrasonic</text>
+  <text class="c s" x="320" y="142">Controller (MCU + RTOS)</text>
+  <text class="c s" x="320" y="188">Li-ion battery</text>
+  <text x="4" y="249" class="s">castor wheel</text>
+  <text x="566" y="218" class="s">line /</text><text x="566" y="232" class="s">magnetic</text><text x="566" y="246" class="s">sensor</text>
+  <text x="536" y="108" class="s">LiDAR</text>
+  <text class="s i" x="330" y="300">guide path (tape / wire)</text>
+</svg></div>
+<p class="cap">Fig 21 – AGV, top view (differential drive)</p>
+<ul>
+  <li><b>Navigation/guidance:</b> wire-guided (inductive), magnetic tape, optical line following, laser reflector triangulation, vision/SLAM (natural navigation, AI).</li>
+  <li><b>Sensors:</b> line/magnetic sensors, wheel encoders (odometry), LiDAR, ultrasonic, bumpers, RFID tags for stations.</li>
+  <li><b>Drive:</b> differential drive — <span class="formula">v = (v<sub>R</sub>+v<sub>L</sub>)/2 &nbsp; ω = (v<sub>R</sub>−v<sub>L</sub>)/L</span></li>
+  <li><b>Controller:</b> path following (PID on line error), obstacle avoidance, traffic management by central computer via Wi-Fi, auto battery charging.</li>
+  <li><b>Safety:</b> emergency stop, bumper, LiDAR safety fields, warning lights &amp; buzzer.</li>
+</ul>
+
+<h4>(c) Automatic car park barrier</h4>
+<p>Barrier rises when the correct coin/ticket/RFID is detected and lowers after the car has passed.</p>
+<div class="fig"><svg viewBox="0 0 640 260" role="img" aria-label="Car park barrier sketch">
+  <g class="sk">
+    <path class="b" d="M10 230H630" stroke-width="2.5"/>
+    <rect class="bf" x="110" y="110" width="44" height="120" rx="3"/>
+    <circle class="b" cx="132" cy="122" r="7"/>
+    <path class="b" d="M132 118H470V128H132" stroke-width="2.5"/>
+    <path class="rr" d="M180 118H210M240 118H270M300 118H330M360 118H390M420 118H450" stroke-width="7" opacity=".7"/>
+    <path class="b d" d="M132 120L300 20" stroke-width="2"/>
+    <path class="a" d="M270 104 A150 150 0 0 0 238 56" marker-end="url(#ar)"/>
+    <rect class="bf" x="30" y="150" width="50" height="80" rx="3"/>
+    <rect class="b" x="42" y="164" width="26" height="10"/>
+    <rect class="b d" x="300" y="236" width="140" height="14"/>
+    <path class="b" d="M480 205h120l-12-30h-74l-18 30" stroke-width="2"/>
+    <circle class="b" cx="505" cy="222" r="10"/><circle class="b" cx="578" cy="222" r="10"/>
+    <path class="b" d="M480 205v12h140v-12z"/>
+  </g>
+  <text class="s" x="18" y="142">coin / ticket</text><text class="s" x="20" y="250">slot (X0)</text>
+  <text class="s r" x="160" y="150">motor + gearbox</text><text class="s r" x="160" y="166">up/down limit sw.</text><text class="s r" x="160" y="182">(X1, X3)</text>
+  <text class="s i" x="300" y="16">raised position</text>
+  <text class="s" x="320" y="225">inductive loop / IR (X2)</text>
+  <text class="s" x="350" y="112">barrier arm</text>
+</svg></div>
+<div class="fig"><svg viewBox="0 0 640 200" role="img" aria-label="PLC ladder program for car park barrier">
+  <g class="sk">
+    <path class="b" d="M30 14V186M610 14V186" stroke-width="3"/>
+    <path class="b" d="M30 50H80M120 50H230M270 50H370M410 50H520M560 50H610M60 50V105H80M120 105H150V50"/>
+    <path class="b" d="M30 150H80M120 150H230M270 150H370M410 150H520M560 150H610"/>
+  </g>
+  <use href="#no" x="80" y="35"/><use href="#no" x="80" y="90"/><use href="#nc" x="230" y="35"/><use href="#nc" x="370" y="35"/><use href="#coil" x="520" y="35"/>
+  <use href="#no" x="80" y="135"/><use href="#nc" x="230" y="135"/><use href="#nc" x="370" y="135"/><use href="#coil" x="520" y="135"/>
+  <text class="c s" x="100" y="28">X0 coin</text><text class="c s" x="100" y="132">Y0</text><text class="c s" x="250" y="28">X1 up-limit</text><text class="c s" x="390" y="28">Y1</text><text class="c s" x="540" y="28">Y0 RAISE</text>
+  <text class="c s" x="100" y="128"> </text><text class="c s" x="100" y="184">X2 car passed</text><text class="c s" x="250" y="128">X3 down-limit</text><text class="c s" x="390" y="128">Y0</text><text class="c s" x="540" y="128">Y1 LOWER</text>
+  <text class="s i" x="170" y="96">latch</text>
+  <text class="s r" x="420" y="96">Y0/Y1 NC = interlock</text>
+</svg></div>
+<p class="cap">Fig 22 – Car park barrier: layout and PLC ladder program</p>
+<ul>
+  <li><b>Inputs:</b> X0 coin/ticket accepted, X1 barrier-up limit switch, X2 car-passed sensor (inductive loop / IR beam), X3 barrier-down limit switch.</li>
+  <li><b>Outputs:</b> Y0 motor raise, Y1 motor lower (or a pneumatic/hydraulic cylinder via solenoid valves).</li>
+  <li><b>Working:</b> coin → Y0 latches → barrier rises until X1 opens; car passes X2 → Y1 → barrier lowers until X3. Interlocks stop both directions being ON together. A timer can lower it automatically after, e.g., 10 s.</li>
+  <li><b>Extensions:</b> counter for free spaces (CTUD), "FULL" sign, ANPR camera (AI number-plate recognition), RFID/FASTag.</li>
+</ul>
+
+<h4>(d) Engine management system (EMS)</h4>
+<p>Electronic control of a car engine by an <b>ECU</b> (Engine Control Unit) to get the best power, fuel economy and lowest emissions.</p>
+<div class="fig"><svg viewBox="0 0 640 300" role="img" aria-label="Engine management system with ECU, sensors and actuators">
+  <g class="sk">
+    <rect class="bf" x="20" y="14" width="170" height="34" rx="5"/>
+    <rect class="bf" x="20" y="60" width="170" height="34" rx="5"/>
+    <rect class="bf" x="20" y="106" width="170" height="34" rx="5"/>
+    <rect class="bf" x="20" y="152" width="170" height="34" rx="5"/>
+    <rect class="bf" x="20" y="198" width="170" height="34" rx="5"/>
+    <rect class="bf" x="20" y="244" width="170" height="34" rx="5"/>
+    <rect class="b" x="250" y="100" width="140" height="100" rx="8" stroke-width="3"/>
+    <rect class="bf" x="450" y="30" width="170" height="34" rx="5"/>
+    <rect class="bf" x="450" y="80" width="170" height="34" rx="5"/>
+    <rect class="bf" x="450" y="130" width="170" height="34" rx="5"/>
+    <rect class="bf" x="450" y="180" width="170" height="34" rx="5"/>
+    <rect class="bf" x="450" y="230" width="170" height="34" rx="5"/>
+    <path class="a" d="M190 31L248 110M190 77L248 125M190 123L248 140M190 169L248 160M190 215L248 175M190 261L248 190" marker-end="url(#ar)"/>
+    <path class="a" d="M390 110L448 47M390 125L448 97M390 150L448 147M390 175L448 197M390 190L448 247" marker-end="url(#ar)"/>
+    <path class="rr d" d="M535 264V292H105V280" marker-end="url(#arr)"/>
+  </g>
+  <text class="c s" x="105" y="36">Crank / cam position</text>
+  <text class="c s" x="105" y="82">MAP / MAF (air flow)</text>
+  <text class="c s" x="105" y="128">Throttle position</text>
+  <text class="c s" x="105" y="174">Coolant / air temp</text>
+  <text class="c s" x="105" y="220">Knock sensor</text>
+  <text class="c s" x="105" y="266">O₂ (lambda) sensor</text>
+  <text class="c r" x="320" y="140">ECU</text><text class="c s" x="320" y="160">MCU + maps</text><text class="c s" x="320" y="178">look-up tables</text>
+  <text class="c s" x="535" y="52">Fuel injectors</text>
+  <text class="c s" x="535" y="102">Ignition coil / spark</text>
+  <text class="c s" x="535" y="152">Idle air / e-throttle</text>
+  <text class="c s" x="535" y="202">EGR valve</text>
+  <text class="c s" x="535" y="252">Fuel pump relay</text>
+  <text class="c s r" x="320" y="287">exhaust gas feedback → closed loop (λ = 1)</text>
+  <text class="c s i" x="105" y="8"> </text>
+  <text class="s i" x="250" y="90">SENSORS → ECU → ACTUATORS</text>
+</svg></div>
+<p class="cap">Fig 23 – Engine management system</p>
+<ul>
+  <li><b>Fuel control:</b> ECU computes injector pulse width from engine speed (crank sensor) and air mass (MAF/MAP); corrected by coolant temp, throttle and <b>O₂ sensor feedback</b> to keep air–fuel ratio at stoichiometric <span class="hl">14.7 : 1 (λ = 1)</span> for the catalytic converter.</li>
+  <li><b>Ignition control:</b> spark timing (advance) from 3-D map of speed &amp; load; retarded if knock sensor detects detonation.</li>
+  <li><b>Idle speed, EGR, variable valve timing, OBD-II diagnostics</b> (fault codes, check-engine lamp).</li>
+  <li><b>Advantages over carburettor:</b> better mileage, lower emissions (BS-VI), smooth start in cold, self-diagnosis.</li>
+</ul>
+<div class="tip">Case-study answers = <b>labelled diagram + inputs (sensors) + outputs (actuators) + controller + working sequence + advantages</b>. That's the full-marks format.</div>
+
+<!-- ===================================================== QUESTIONS -->
+<h2 id="qs">Important Questions</h2>
+<p class="red"><b>Unit III</b></p>
+<div class="q"><b>1.</b> Draw and explain the block diagram of a microprocessor-based system. What are the functions of the address, data and control buses?</div>
+<div class="q"><b>2.</b> Differentiate between microprocessor and microcontroller. Draw the block diagram of a microcontroller (8051).</div>
+<div class="q"><b>3.</b> Explain the basic structure of a PLC with a neat diagram. Explain input/output processing / scan cycle.</div>
+<div class="q"><b>4.</b> Draw ladder diagrams for AND, OR, NOT, NAND, NOR, XOR gates and write their instruction lists.</div>
+<div class="q"><b>5.</b> What is latching? Draw a ladder program for start-stop control of a motor. What are internal relays?</div>
+<div class="q"><b>6.</b> Explain ON-delay, OFF-delay and retentive timers with timing diagrams. Explain up/down counters with an example.</div>
+<div class="q"><b>7.</b> What is a shift register? Explain its use in a conveyor reject system.</div>
+<div class="q"><b>8.</b> Differentiate master control relay and jump instruction.</div>
+<div class="q"><b>9.</b> Short notes: code conversion, data handling, sequencing (A+B+A−B−), criteria for selection of PLC.</div>
+<p class="red"><b>Unit IV</b></p>
+<div class="q"><b>10.</b> How is AI being included in mechatronic systems? Give applications.</div>
+<div class="q"><b>11.</b> What is signal conditioning? Explain its functions. Draw an inverting op-amp amplifier and derive gain.</div>
+<div class="q"><b>12.</b> Explain a data acquisition system with block diagram. A 12-bit ADC has 10 V range — find resolution. <i>(Ans: 10/4096 = 2.44 mV)</i></div>
+<div class="q"><b>13.</b> Explain types of actuators used in mechatronics. How is a DC motor's speed and direction controlled (PWM + H-bridge)?</div>
+<div class="q"><b>14.</b> Explain layered embedded firmware architecture. Compare super-loop and RTOS based design.</div>
+<div class="q"><b>15.</b> What is an RTOS? Explain task states, scheduling and priority inversion. Why is an RTOS needed in safety-critical systems?</div>
+<div class="q"><b>16.</b> Explain the steps in building a physics-accurate CAD model for simulation. What is a digital twin?</div>
+<div class="q"><b>17.</b> Explain the stages in designing a mechatronic system. Compare traditional and mechatronic design.</div>
+<div class="q"><b>18.</b> Case studies with diagram: pick-and-place robot, AGV, automatic car park barrier (with ladder), engine management system.</div>
+<p class="sub" style="margin-top:28px">— best of luck for the minors! ✍</p>
+</main>
