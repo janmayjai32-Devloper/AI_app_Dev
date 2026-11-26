@@ -15,6 +15,14 @@ on the device. There are no servers and no internet requirement.
 > the first build. Art, animation clips, scenes and data assets come next, in the roadmap's
 > phases.
 
+## Concept previews
+
+| Gameplay HUD | Base building & roads |
+|---|---|
+| ![Gameplay](docs/previews/gameplay.png) | ![Base building](docs/previews/base-building.png) |
+
+These are vector mockups of the planned camera, HUD and art direction, regenerated from `docs/previews/mockup.html`. They are not final art.
+
 ## Docs
 
 | Doc | Contents |
