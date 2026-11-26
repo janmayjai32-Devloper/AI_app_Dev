@@ -3,9 +3,7 @@
 This is an **offline, single-player** 3D open-world parody RPG for **Android and PC**. It is built
 in **Unity 2022.3 LTS** with the **URP** render pipeline.
 
-The controls follow the Albion Online model: a fixed isometric camera, tap or click to move,
-tap an enemy to target it, and an ability bar where your gear decides your skills. Around that
-sit an anime cel-shaded art style, KonoSuba-style comedy, deep character customization,
+There are two control modes. **Direct control** is the default, in the style of Genshin Impact or NTE: joystick or WASD, a free third-person camera, jump, sprint, dodge, and an attack button with lock-on. **Tap-to-move** follows Albion Online: a fixed isometric camera, tap to move, tap an enemy to target it. In both, your gear decides your skills. The art style is 3D anime cel-shading in the Genshin and NTE family (see `docs/ART_STYLE_GUIDE.md`). Around that sit KonoSuba-style comedy, deep character customization,
 companion romance, base building with roads, gathering, and a branching story. Everything runs
 on the device. There are no servers and no internet requirement.
 
@@ -17,9 +15,9 @@ on the device. There are no servers and no internet requirement.
 
 ## Concept previews
 
-| Gameplay HUD | Base building & roads |
-|---|---|
-| ![Gameplay](docs/previews/gameplay.png) | ![Base building](docs/previews/base-building.png) |
+| Direct control (default, 3rd person) | Tap-to-move (Albion-style) | Base building & roads |
+|---|---|---|
+| ![Direct control](docs/previews/direct-control.png) | ![Gameplay](docs/previews/gameplay.png) | ![Base building](docs/previews/base-building.png) |
 
 These are vector mockups of the planned camera, HUD and art direction, regenerated from `docs/previews/mockup.html`. They are not final art.
 
@@ -29,6 +27,7 @@ These are vector mockups of the planned camera, HUD and art direction, regenerat
 |---|---|
 | [`docs/GAME_DESIGN.md`](docs/GAME_DESIGN.md) | Controls, combat, the world map and roads, gathering, the base, NPCs, Act 1, and the content policy |
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | The 5-phase plan to a playable v1.0 vertical slice |
+| [`docs/ART_STYLE_GUIDE.md`](docs/ART_STYLE_GUIDE.md) | Genshin/NTE-inspired look: proportions, toon shader settings, per-tier rendering, palettes |
 | [`docs/ANIMATOR_SETUP.md`](docs/ANIMATOR_SETUP.md) | Animator layers, parameters, state names and animation events the code expects |
 
 ## Folder structure
@@ -40,7 +39,7 @@ isekai-chaos-sandbox/
 └── Assets/
     ├── Addressables/                 streamed content (world chunks, characters, garments)
     │   ├── Biomes/  Characters/  Wardrobe/
-    ├── Art/  Characters/ Environments/ Shaders/ UI/
+    ├── Art/  Characters/ Environments/ Shaders/(AnimeToon.shader) UI/
     ├── Audio/
     ├── Data/                         ScriptableObject assets (designers live here)
     │   ├── Biomes/ Buildings/ NPCs/ Quests/ Wardrobe/
@@ -48,19 +47,20 @@ isekai-chaos-sandbox/
     └── Scripts/
         ├── Core/            GameEvents (event bus), ContentSettings (18+ gate), DeviceTier
         ├── Customizer/      LayeredWardrobeController ★, WardrobeItem, WardrobeTypes,
-        │                    WardrobeDatabase, CharacterAppearanceController, CharacterStateBinder
+        │                    WardrobeDatabase, CharacterAppearanceController, CharacterStateBinder, FaceShadowDriver
         ├── IntimacyManager/ NPCRomanceController ★, NPCProfile, IntimacySessionController, NPCRegistry
         ├── WorldStreaming/  WorldBiomeManager ★, BiomeDefinition
         ├── StorySystem/     StoryProgressManager ★, QuestDefinition
         ├── SaveSystem/      SaveLoadManager ★, SaveData, SaveMigrator, ExternalSaveBridge
         ├── Combat/          CombatController, AbilityDefinition, AttackDefinition, ComboDefinition,
         │                    Hitbox, Hurtbox, Health, HitStopController, EnemyAI, PlayerDefeatHandler
-        ├── Animation/       ClickToMoveMotor, IsometricCameraRig, InteractionController,
+        ├── Animation/       ClickToMoveMotor, ThirdPersonCameraRig, IsometricCameraRig, InteractionController,
         │                    Interactable, AnimationEventRelay
         ├── World/           ResourceNode, GatheringController, RoadBuilder, RoadSpeedZone, RoadAwareSpeed
         ├── Economy/         EconomyManager, TradeGood
         ├── BaseBuilding/    BaseBuildingManager, BuildingDefinition
-        └── UI/              TouchInputController, AimIndicator
+        └── UI/              ControlModeManager, DirectControlInput, VirtualJoystick,
+                             TouchInputController, AimIndicator
 ```
 ★ = the five core classes the blueprint asked for.
 

@@ -23,6 +23,8 @@ namespace IsekaiChaos.Animation
         static readonly int MoveXParam = Animator.StringToHash("MoveX");
         static readonly int MoveYParam = Animator.StringToHash("MoveY");
         static readonly int GroundedParam = Animator.StringToHash("Grounded");
+        static readonly int JumpTrigger = Animator.StringToHash("Jump");
+        static readonly int VerticalParam = Animator.StringToHash("VerticalSpeed");
 
         [SerializeField] Animator animator;
         [SerializeField] float walkSpeed = 2.2f;
@@ -31,6 +33,11 @@ namespace IsekaiChaos.Animation
         [SerializeField] float turnSpeed = 900f;
         [SerializeField] float gravity = -20f;
         [SerializeField] float stopDistance = 0.15f;
+        [Header("Direct control (Genshin/NTE style)")]
+        [SerializeField] float sprintSpeed = 8f;
+        [SerializeField] float jumpHeight = 1.3f;
+        [SerializeField] float airControl = 0.6f;
+        [SerializeField] float coyoteTime = 0.12f;
 
         CharacterController _cc;
         NavMeshAgent _agent;
@@ -41,11 +48,16 @@ namespace IsekaiChaos.Animation
         float _verticalVel;
         Vector2 _joystick;
         Transform _cameraYaw;
-        bool _walkMode;
+        bool _walkMode, _sprint, _jumpQueued;
+        float _lastGroundedTime;
 
         public bool IsMoving => _velocity.sqrMagnitude > 0.05f;
         /// <summary>Set by InteractionController while a scripted motion owns the body.</summary>
         public bool Locked { get; set; }
+        /// <summary>Tap-to-move mode walks toward the combat target automatically; direct mode doesn't.</summary>
+        public bool AutoChaseTarget { get; set; } = true;
+        public bool IsSprinting => _sprint && IsMoving;
+        public bool IsGrounded => _cc.isGrounded;
 
         void Awake()
         {
@@ -74,6 +86,10 @@ namespace IsekaiChaos.Animation
         public void Stop() { if (_agent.isOnNavMesh) _agent.ResetPath(); }
         public void SetJoystick(Vector2 v) { _joystick = Vector2.ClampMagnitude(v, 1f); if (v.sqrMagnitude > 0.01f) Stop(); }
         public void ToggleWalk() => _walkMode = !_walkMode;
+        public void SetSprint(bool on) => _sprint = on;
+        public void Jump() => _jumpQueued = true;
+        /// <summary>Camera used for camera-relative joystick/WASD movement.</summary>
+        public void SetCamera(Transform cam) => _cameraYaw = cam;
 
         // ------------------------------------------------------------- update
         void Update()
@@ -84,12 +100,13 @@ namespace IsekaiChaos.Animation
             Vector3 desired = Vector3.zero;
             if (canMove)
             {
-                if (_joystick.sqrMagnitude > 0.01f) desired = JoystickWorld() * (_walkMode ? walkSpeed : runSpeed) * _joystick.magnitude;
+                float topSpeed = _sprint ? sprintSpeed : _walkMode ? walkSpeed : runSpeed;
+                if (_joystick.sqrMagnitude > 0.01f) desired = JoystickWorld() * topSpeed * _joystick.magnitude;
                 else if (_agent.hasPath && _agent.remainingDistance > stopDistance)
                     desired = Vector3.ClampMagnitude(_agent.desiredVelocity, _walkMode ? walkSpeed : runSpeed);
 
                 // Chase the combat target into basic-attack range.
-                if (_combat && _combat.Target && desired == Vector3.zero)
+                if (AutoChaseTarget && _combat && _combat.Target && desired == Vector3.zero)
                 {
                     float d = Vector3.Distance(transform.position, _combat.Target.transform.position);
                     if (d > 2f) MoveTo(_combat.Target.transform.position);
@@ -97,8 +114,22 @@ namespace IsekaiChaos.Animation
             }
 
             if (_road) desired *= _road.Multiplier;     // roads are faster
-            _velocity = Vector3.MoveTowards(_velocity, desired, acceleration * Time.deltaTime);
-            _verticalVel = _cc.isGrounded ? -2f : _verticalVel + gravity * Time.deltaTime;
+            float accel = _cc.isGrounded ? acceleration : acceleration * airControl;
+            _velocity = Vector3.MoveTowards(_velocity, desired, accel * Time.deltaTime);
+
+            if (_cc.isGrounded) _lastGroundedTime = Time.time;
+            if (_jumpQueued)
+            {
+                _jumpQueued = false;
+                if (canMove && Time.time - _lastGroundedTime <= coyoteTime)
+                {
+                    _verticalVel = Mathf.Sqrt(2f * jumpHeight * -gravity);
+                    _lastGroundedTime = -1f;
+                    if (animator) animator.SetTrigger(JumpTrigger);
+                }
+            }
+            else if (_cc.isGrounded && _verticalVel < 0f) _verticalVel = -2f;
+            else _verticalVel += gravity * Time.deltaTime;
 
             bool rootMotion = _combat && _combat.WantsRootMotion;
             if (!rootMotion) _cc.Move((_velocity + Vector3.up * _verticalVel) * Time.deltaTime);
@@ -127,6 +158,7 @@ namespace IsekaiChaos.Animation
             animator.SetFloat(MoveXParam, local.x, 0.1f, Time.deltaTime);
             animator.SetFloat(MoveYParam, local.z, 0.1f, Time.deltaTime);
             animator.SetBool(GroundedParam, _cc.isGrounded);
+            animator.SetFloat(VerticalParam, _verticalVel);
         }
 
         /// <summary>

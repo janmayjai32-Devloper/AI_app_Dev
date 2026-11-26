@@ -5,18 +5,34 @@ Albion Online model. The tone is comedy parody.
 
 ---
 
-## 1. Controls (Albion-style, touch and PC)
+## 1. Controls: two modes that share the same gameplay
 
+Players switch between the modes in **Settings → Controls** (`ControlModeManager`). Both modes drive the same movement, combat and interaction code, so saves, balance and animation are identical.
+
+### A. Direct control (default): Genshin / NTE style
 | Action | Touch (Android) | PC |
 |---|---|---|
-| Move | Tap the ground. Hold to keep walking toward your finger. A floating joystick is optional. | Right-click, or hold right-click |
-| Target an enemy | Tap the enemy. Your character chases it and auto-attacks. | Left-click |
-| Interact (NPC, chest, bench, tree, forge) | Tap it. Your character walks over, lines up, and plays the animation. | Left-click |
-| Abilities | Six buttons: **Q W E** from your weapon, **R** from chest armor, **D** from the helmet, **F** from boots. Tap to smart-cast. Drag from a button to aim, then release to cast. | Q W E R D F cast at the cursor |
-| Camera | Pinch to zoom, two-finger twist to rotate | Mouse wheel |
-| Cancel | Tap anywhere: stand up, stop gathering | Esc clears the target |
+| Move | Floating joystick on the left half of the screen (push lightly to walk) | WASD (Ctrl toggles walking) |
+| Camera | Drag on the right half of the screen. Pinch with two fingers to zoom | Mouse (cursor locked), wheel to zoom |
+| Attack | Big ⚔ button. Tap repeatedly to combo. It locks on to the nearest enemy in front | Left click |
+| Jump | ⤒ button | Space |
+| Dodge / Sprint | 💨 button: tap to dodge (i-frames), hold to sprint | Shift: tap to dodge, hold to sprint |
+| Abilities | 6 buttons in a ring around Attack | 1 – 6 |
+| Interact | A "Sit / Open / Gather / Talk" prompt appears when you're near something | F |
+| Menus | HUD buttons | Hold Alt to free the cursor |
 
-**Your gear is your build.** A weapon grants a pool of Q, W and E abilities, and each armor
+`ThirdPersonCameraRig` follows over the shoulder. It avoids walls with collision, recenters behind you while you run, and frames your lock-on target during fights.
+
+### B. Tap-to-move: Albion Online style
+| Action | Touch (Android) | PC |
+|---|---|---|
+| Move | Tap the ground. Hold to keep walking toward your finger | Right-click |
+| Target an enemy | Tap the enemy. Your character chases it and auto-attacks | Left-click |
+| Interact | Tap it. Your character walks over, lines up and plays the animation | Left-click |
+| Abilities | Tap to smart-cast, or drag from the button to aim | Q W E R D F at the cursor |
+| Camera | Fixed isometric view. Pinch to zoom, two-finger twist to rotate | Mouse wheel |
+
+**Your gear is your build.** In both modes, a weapon grants a pool of abilities for slots 1–3 (Q, W, E), and each armor
 piece grants its own slot. Players choose one ability per slot on the gear screen. Changing
 outfits in the 5-layer wardrobe therefore changes your build as well as your look.
 

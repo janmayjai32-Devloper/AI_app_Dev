@@ -9,7 +9,7 @@ Humanoid avatar.
 
 | Index | Name | Blend | Contents |
 |---|---|---|---|
-| 0 | Base | — | Locomotion blend tree (Speed: idle 0, walk 2.2, run 5.5), strafe 2D blend (MoveX/MoveY), hit reactions, death |
+| 0 | Base | — | Locomotion blend tree (Speed: idle 0, walk 2.2, run 5.5, sprint 8), strafe 2D blend (MoveX/MoveY), hit reactions, death |
 | 1 | Combat | Override, upper+lower body | Attack and ability states. Their names must equal `AttackDefinition.animatorState` |
 | 2 | Interaction | Override, IK Pass ON | Interaction enter, loop and exit states, named in each `Interactable` |
 
@@ -20,6 +20,8 @@ Humanoid avatar.
 | `Speed` | float | ClickToMoveMotor, EnemyAI |
 | `MoveX`, `MoveY` | float | ClickToMoveMotor |
 | `Grounded` | bool | ClickToMoveMotor |
+| `Jump` | trigger | ClickToMoveMotor (jump start → air loop → land) |
+| `VerticalSpeed` | float | ClickToMoveMotor (blends rising, falling and landing) |
 | `AttackSpeed` | float | CombatController (use it as the speed multiplier on Combat states) |
 | `Casting` | bool | CombatController (cast-bar idle loop) |
 | `Hit` | trigger | Health |
@@ -44,7 +46,7 @@ so retiming a clip never desyncs damage.
 
 ## Starter clip list (vertical slice)
 
-- **Locomotion:** idle (3 variants), walk, run, sprint, strafe ×4, turn-in-place.
+- **Locomotion:** idle (3 variants), walk, run, sprint, strafe ×4, turn-in-place, jump start, air loop, land (soft and hard), and a stop-skid.
 - **Sword:** light ×4 chain, heavy ×2, a dash slash, a spin AoE, block, and a dodge roll.
 - **Staff:** cast loop, projectile throw, ground AoE slam.
 - **Reactions:** flinch F/B/L/R, stagger, knockdown and get-up, launch, death, and a comedic faint.

@@ -34,6 +34,13 @@ namespace IsekaiChaos.Combat
         [SerializeField] float energyRegen = 6f;
         [SerializeField] float turnSpeed = 720f;
         [SerializeField] float basicAttackRange = 2.2f;
+        [Header("Direct control (Genshin/NTE style)")]
+        [SerializeField] float softLockRange = 6f;
+        [SerializeField, Range(0, 180)] float softLockHalfAngle = 70f;
+        [SerializeField] LayerMask softLockMask = ~0;
+
+        /// <summary>Tap-to-move mode auto-attacks the selected target; direct mode uses the Attack button.</summary>
+        public bool AutoAttackEnabled { get; set; } = true;
 
         public Health Health { get; private set; }
         public Health Target { get; private set; }
@@ -54,6 +61,7 @@ namespace IsekaiChaos.Combat
         readonly float[] _cooldownUntil = new float[6];
 
         AttackDefinition _current;
+        bool _bufferedBasic;
         float _currentNormalized;
         int _chainIndex;
         float _chainResetAt;
@@ -179,15 +187,72 @@ namespace IsekaiChaos.Combat
             Health.Invulnerable = false;
         }
 
-        void TickAutoAttack()
+        // ------------------------------------------------------------------------------
+        #region Direct-control attack button
+        /// <summary>
+        /// Attack button (or left mouse button in direct mode). Soft lock-on: snaps to the best enemy
+        /// in a cone in front of the character (or along the stick direction), then plays the next
+        /// hit of the light chain. Pressing during an attack buffers the next hit until the cancel window.
+        /// </summary>
+        public bool BasicAttack(Vector3 preferredDirection = default)
         {
-            if (Target == null || Target.IsDead || IsBusy || IsCasting || weapon == null || weapon.lightChain.Count == 0) return;
-            if (Vector3.Distance(transform.position, Target.transform.position) > basicAttackRange) return;
+            if (Health.IsDead || Health.IsStunned || weapon == null || weapon.lightChain.Count == 0) return false;
+            if (IsBusy || IsCasting)
+            {
+                if (_current != null && _currentNormalized >= _current.inputBufferFrom) _bufferedBasic = true;
+                return false;
+            }
 
+            var target = FindSoftTarget(preferredDirection.sqrMagnitude > 0.01f ? preferredDirection : transform.forward);
+            if (target) Target = target;
+            if (Target)
+            {
+                Vector3 d = Target.transform.position - transform.position; d.y = 0;
+                if (d.sqrMagnitude > 0.001f) transform.rotation = Quaternion.LookRotation(d);
+            }
+            else if (preferredDirection.sqrMagnitude > 0.01f)
+                transform.rotation = Quaternion.LookRotation(new Vector3(preferredDirection.x, 0, preferredDirection.z));
+
+            NextChainAttack();
+            return true;
+        }
+
+        static readonly Collider[] SoftLockBuffer = new Collider[24];
+
+        Health FindSoftTarget(Vector3 dir)
+        {
+            dir.y = 0; dir.Normalize();
+            int n = Physics.OverlapSphereNonAlloc(transform.position, softLockRange, SoftLockBuffer, softLockMask, QueryTriggerInteraction.Collide);
+            Health best = null; float bestScore = float.MaxValue;
+            for (int i = 0; i < n; i++)
+            {
+                var h = SoftLockBuffer[i].GetComponentInParent<Health>();
+                if (!h || h == Health || h.IsDead || h.Team == Health.Team) continue;
+                Vector3 to = h.transform.position - transform.position; to.y = 0;
+                float angle = Vector3.Angle(dir, to);
+                if (angle > softLockHalfAngle) continue;
+                float score = to.magnitude + angle * 0.05f;      // prefer close and centered
+                if (score < bestScore) { bestScore = score; best = h; }
+            }
+            return best;
+        }
+
+        void NextChainAttack()
+        {
             if (Time.time > _chainResetAt) _chainIndex = 0;
             var atk = weapon.lightChain[_chainIndex % weapon.lightChain.Count];
             _chainIndex++;
             StartAttack(atk);
+        }
+        #endregion
+
+        void TickAutoAttack()
+        {
+            if (!AutoAttackEnabled) return;
+            if (Target == null || Target.IsDead || IsBusy || IsCasting || weapon == null || weapon.lightChain.Count == 0) return;
+            if (Vector3.Distance(transform.position, Target.transform.position) > basicAttackRange) return;
+
+            NextChainAttack();
         }
 
         void StartAttack(AttackDefinition atk)
@@ -227,6 +292,13 @@ namespace IsekaiChaos.Combat
                 if (!TryExecute(s, _bufferedPoint, _bufferedTarget)) _current = c;
             }
 
+            if (_currentNormalized >= _current.cancelFrom && _bufferedBasic)
+            {
+                _bufferedBasic = false;
+                NextChainAttack();                                 // combo continues seamlessly
+                return;
+            }
+
             if (_currentNormalized >= 1f) FinishAttack();
         }
 
@@ -257,6 +329,7 @@ namespace IsekaiChaos.Combat
             _current = null;
             _casting = null;
             _bufferedSlot = null;
+            _bufferedBasic = false;
             if (animator) { animator.SetBool(CastingParam, false); animator.applyRootMotion = false; }
         }
 
