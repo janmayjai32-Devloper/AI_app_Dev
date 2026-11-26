@@ -29,6 +29,7 @@ later) and on Windows.
 **Goal:** the look and feel of the game.
 
 - [ ] Toon shader in URP: cel ramp, rim light, outline (inverted hull, disabled on the Low tier), and an anime eye/face shader with SDF face shadows.
+- [ ] Player and 4 companions built in VRoid Studio and set up with `IsekaiChaos ▸ Characters ▸ Setup…` (see `VROID_PIPELINE.md`).
 - [ ] Base humanoid body split into BodyRegion meshes. Male and female bases, plus race parts (elf ears, horns, wings, wolf/fox/cat ears and tails with spring-bone physics).
 - [ ] CharacterAppearanceController sliders and the avatar creator UI.
 - [ ] LayeredWardrobeController with 20 starter garments across the 5 layers, torn variants, and occlusion verified (no skin poke-through).

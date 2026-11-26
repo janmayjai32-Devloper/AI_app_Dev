@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace IsekaiChaos.Combat
 {
-    public enum Team { Player = 0, Companion = 0, Enemy = 1, Neutral = 2 }
+    /// <summary>Companions use Team.Player. Persisted/serialized as int — append only.</summary>
+    public enum Team { Player = 0, Enemy = 1, Neutral = 2 }
 
     public struct DamageInfo
     {

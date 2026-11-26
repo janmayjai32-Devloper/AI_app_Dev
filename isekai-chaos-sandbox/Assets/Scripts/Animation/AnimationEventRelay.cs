@@ -25,7 +25,9 @@ namespace IsekaiChaos.Animation
             if (!interaction) interaction = GetComponentInParent<InteractionController>();
         }
 
-        void OnAnimatorMove() { if (motor) motor.ApplyRootMotion(); }
+        // If the Animator sits on the same GameObject as the motor, Unity already calls the motor's own
+        // OnAnimatorMove; forwarding again would apply root motion twice.
+        void OnAnimatorMove() { if (motor && motor.gameObject != gameObject) motor.ApplyRootMotion(); }
         void OnAnimatorIK(int layerIndex) { if (interaction) interaction.ApplyIK(layerIndex); }
 
         // Called from animation events (names must match exactly).
