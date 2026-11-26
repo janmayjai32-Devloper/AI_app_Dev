@@ -27,6 +27,7 @@ These are vector mockups of the planned camera, HUD and art direction, regenerat
 |---|---|
 | [`docs/GAME_DESIGN.md`](docs/GAME_DESIGN.md) | Controls, combat, the world map and roads, gathering, the base, NPCs, Act 1, and the content policy |
 | [`docs/ROADMAP.md`](docs/ROADMAP.md) | The 5-phase plan to a playable v1.0 vertical slice |
+| [`docs/BUILD_PROMPTS.md`](docs/BUILD_PROMPTS.md) | Copy-paste AI prompts to build the game phase by phase, plus concept-art prompts |
 | [`docs/VROID_PIPELINE.md`](docs/VROID_PIPELINE.md) | **Start here:** make anime characters in VRoid, one-click setup in Unity, animations, Android test build |
 | [`docs/ART_STYLE_GUIDE.md`](docs/ART_STYLE_GUIDE.md) | Genshin/NTE-inspired look: proportions, toon shader settings, per-tier rendering, palettes |
 | [`docs/ANIMATOR_SETUP.md`](docs/ANIMATOR_SETUP.md) | Animator layers, parameters, state names and animation events the code expects |
